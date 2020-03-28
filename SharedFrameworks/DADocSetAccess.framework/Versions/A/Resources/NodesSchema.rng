@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ***************************************************************************************** -->
+<!-- This is a RELAX NG ruleset. Read about RELAX NG at:                                       -->
+<!-- http://relaxng.org/ and http://relaxng.org/tutorial-20030326.html                         -->
+<!-- ***************************************************************************************** -->
+
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+
+  <start>
+    <ref name="DocSetNodes"/>
+  </start>
+
+  <define name="DocSetNodes">
+    <element name="DocSetNodes">
+      <attribute name="version"/>
+      <ref name="TOC"/>
+      <optional>
+        <ref name="Library"/>
+      </optional>
+    </element>
+  </define>
+
+  <define name="TOC">
+    <element name="TOC">
+      <choice>
+        <ref name="Node"/>
+        <ref name="NodeRef"/>
+      </choice>
+    </element>
+  </define>
+
+  <define name="Library">
+    <element name="Library">
+      <oneOrMore>
+        <ref name="Node"/>
+      </oneOrMore>
+    </element>
+  </define>
+
+  <define name="Node">
+    <element name="Node">
+      <optional>
+        <attribute name="id"><data type="int"/></attribute>
+      </optional>
+      <optional>
+        <attribute name="type">
+          <choice>
+            <value>file</value>
+            <value>folder</value>
+            <value>bundle</value>
+            <value>section</value>
+          </choice>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="documentType">
+          <choice>
+            <value>generic</value>
+            <value>sample code</value>
+            <value>reference</value>
+            <value>recipe</value>
+          </choice>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="noindex">
+          <choice>
+            <value>0</value>
+            <value>1</value>
+          </choice>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="version"></attribute>
+      </optional>
+      <optional>
+        <attribute name="isPrimaryTOCNode">
+          <choice>
+            <value>0</value>
+            <value>1</value>
+          </choice>
+        </attribute>
+      </optional>
+      <element name="Name"><text/></element>
+      <zeroOrMore>
+        <element name="UUID"><text/></element>
+      </zeroOrMore>
+      <optional>
+        <element name="URL"><text/></element>
+      </optional>
+      <optional>
+        <element name="Path"><text/></element>
+      </optional>
+      <optional>
+        <element name="File"><text/></element>
+      </optional>
+      <optional>
+        <element name="Anchor"><text/></element>
+      </optional>
+      <zeroOrMore>
+        <element name="Download">
+          <attribute name="type">
+            <choice>
+              <value>pdf</value>
+              <value>sourcecode</value>
+              <value>generic</value>
+            </choice>
+          </attribute>
+          <!-- The download string is expected to be encoded as a URL -->
+          <text/>
+        </element>
+      </zeroOrMore>
+      <optional>
+        <ref name="RelatedNodes"/>
+      </optional>
+      <optional>
+        <ref name="Subnodes"/>
+      </optional>
+    </element>
+  </define>
+      
+  <define name="NodeRef">
+    <element name="NodeRef">
+      <attribute name="refid"><data type="int"/></attribute>
+      <optional>
+        <attribute name="isPrimaryTOCNode">
+          <choice>
+            <value>0</value>
+            <value>1</value>
+          </choice>
+        </attribute>
+      </optional>
+      <optional>
+        <ref name="Subnodes"/>
+      </optional>
+    </element>
+  </define>
+
+  <define name="Subnodes">
+    <element name="Subnodes">
+      <oneOrMore>
+        <choice>
+          <ref name="Node"/>
+          <ref name="NodeRef"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
+
+  <define name="RelatedNodes">
+    <element name="RelatedNodes">
+      <oneOrMore>
+        <ref name="NodeRef"/>
+      </oneOrMore>
+    </element>
+  </define>
+
+</grammar>

@@ -1,0 +1,101 @@
+(
+
+/****************************************************************************/
+// MARK: Strings and Characters
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.clips.string";
+        Syntax = {
+            Start = "\"";
+            End = "\"";
+            IncludeRules = ( "xcode.lang.url", "xcode.lang.url.mail" );
+            Type = "xcode.syntax.string";
+        };
+    },
+
+    {
+        Identifier = "xcode.lang.clips.string.singlequote";
+        Syntax = {
+            Start = "'";
+            End = "'";
+            IncludeRules = ( "xcode.lang.url", "xcode.lang.url.mail" );
+            Type = "xcode.syntax.string";
+        };
+    },
+
+/****************************************************************************/
+// MARK: Comments
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.clips.comment";
+        Syntax = {
+            Start = ";";
+			Until = "\n";
+            IncludeRules = ( "xcode.lang.url", "xcode.lang.url.mail", "xcode.lang.comment.mark" );
+            Type = "xcode.syntax.comment";
+        };
+    },
+
+/****************************************************************************/
+// MARK: CLIPS Syntax Coloring
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.clips";
+        Description = "CLIPS Coloring";
+        BasedOn = "xcode.lang.simpleColoring";
+        IncludeInMenu = YES;
+        Name = "CLIPS";
+		Syntax = {
+			IncludeRules = (
+				"xcode.lang.clips.comment",
+				"xcode.lang.clips.string",
+				"xcode.lang.clips.string.singlequote",
+				"xcode.lang.number",
+                "xcode.lang.clips.identifier",
+				"xcode.lang.clips.statement",
+			);
+			Type = "xcode.syntax.plain";
+		};
+    },
+
+    {
+        Identifier = "xcode.lang.clips.identifier";
+        Syntax = {
+            StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
+            Words = (
+                "assert",
+                "defrule",
+                "deffunction",
+                "deftemplate",
+                "deffact",
+                "defglobal",
+                "defmodule",
+                "test",
+            );
+            Type = "xcode.syntax.keyword";
+            AltType = "xcode.syntax.identifier";
+            WordBreak = NO;
+        };
+    },
+    
+	{
+		Identifier = "xcode.lang.clips.statement";
+		Syntax = {
+			Start = "(";
+			End = ")";
+			Foldable = YES;
+			Recursive = YES;
+			IncludeRules = (
+				"xcode.lang.clips.comment",
+				"xcode.lang.clips.string",
+				"xcode.lang.clips.string.singlequote",
+				"xcode.lang.number",
+                "xcode.lang.clips.identifier",
+			);
+		};
+	},
+)

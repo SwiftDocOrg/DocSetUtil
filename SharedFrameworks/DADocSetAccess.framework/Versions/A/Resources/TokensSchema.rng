@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ***************************************************************************************** -->
+<!-- This is a RELAX NG ruleset. Read about RELAX NG at:                                       -->
+<!-- http://relaxng.org/ and http://relaxng.org/tutorial-20030326.html                         -->
+<!-- ***************************************************************************************** -->
+
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+
+  <start>
+    <ref name="Tokens"/>
+  </start>
+
+  <define name="Tokens">
+    <element name="Tokens">
+      <attribute name="version"/>
+      <oneOrMore>
+        <choice>
+          <ref name="File"/>
+          <ref name="Token.Ungrouped"/>
+          <ref name="RelatedTokens.Group"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
+
+  <define name="File">
+    <element name="File">
+      <attribute name="path"/>
+      <optional>
+        <attribute name="noderef"/>
+      </optional>
+      <oneOrMore>
+        <ref name="Token.GroupedByFile"/>
+      </oneOrMore>
+    </element>
+  </define>
+
+  <define name="Token.Ungrouped">
+    <element name="Token">
+      <interleave>
+        <optional>
+          <ref name="Path"/>
+        </optional>
+        <optional>
+          <ref name="NodeRef"/>
+        </optional>
+        <ref name="Token.CommonChildren"/>
+      </interleave>
+    </element>
+  </define>
+
+  <define name="Token.GroupedByFile">
+    <element name="Token">
+      <ref name="Token.CommonChildren"/>
+    </element>
+  </define>
+
+  <define name="Token.CommonChildren">
+    <interleave>
+      <ref name="TokenIdentifier"/>
+      <optional>
+        <ref name="Abstract"/>
+      </optional>
+      <optional>
+        <element name="Anchor"><text/></element>
+      </optional>
+      <optional>
+        <element name="Declaration"><ref name="TextTypeAttr"/><text/></element>
+      </optional>
+      <optional>
+        <ref name="Parameters"/>
+      </optional>
+      <optional>
+        <ref name="ReturnValue"/>
+      </optional>
+      <optional>
+        <ref name="ThrowsDiscussion"/>
+      </optional>
+      <optional>
+        <ref name="DeclaredIn"/>
+      </optional>
+      <optional>
+        <ref name="Availability"/>
+      </optional>
+      <optional>
+        <ref name="RelatedTokens.Inline"/>
+      </optional>
+      <optional>
+        <ref name="RelatedDocuments"/>
+      </optional>
+      <optional>
+        <ref name="RelatedSampleCode"/>
+      </optional>
+      <zeroOrMore>
+        <element name="Superclass"><text/></element>
+      </zeroOrMore>
+      <zeroOrMore>
+        <element name="AdoptedProtocol"><text/></element>
+      </zeroOrMore>
+    </interleave>
+  </define>
+
+  <define name="TextTypeAttr">
+    <optional>
+      <attribute name="type">
+        <choice>
+          <value>text</value>
+          <value>html</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+
+  <define name="DeclaredIn">
+    <element name="DeclaredIn">
+      <choice>
+        <text/>
+        <interleave>
+          <element name="HeaderPath"><text/></element>
+          <optional>
+            <element name="FrameworkName"><text/></element>
+          </optional>
+        </interleave>
+      </choice>
+    </element>
+  </define>
+
+  <define name="Path">
+    <element name="Path">
+      <text/>
+    </element>
+  </define>
+
+  <define name="Availability">
+    <element name="Availability">
+      <attribute name="distribution"><text/></attribute>
+      <interleave>
+        <optional>
+          <element name="DeprecationSummary"><ref name="TextTypeAttr"/><text/></element>
+        </optional>
+        <oneOrMore>
+          <element name="IntroducedInVersion">
+            <ref name="VersionInfo"/>
+          </element>
+        </oneOrMore>
+        <zeroOrMore>
+          <element name="DeprecatedInVersion">
+            <ref name="VersionInfo"/>
+          </element>
+        </zeroOrMore>
+        <zeroOrMore>
+          <element name="RemovedAfterVersion">
+            <ref name="VersionInfo"/>
+          </element>
+        </zeroOrMore>
+      </interleave>
+    </element>
+  </define>
+
+  <define name="VersionInfo">
+    <optional>
+      <attribute name="cputype">
+        <choice>
+          <value>ppc</value>
+          <value>i386</value>
+          <value>arm</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="bitsize">
+        <choice>
+          <value>32</value>
+          <value>64</value>
+        </choice>
+      </attribute>
+    </optional>
+    <text/>
+  </define>
+  
+  <define name="RelatedTokens.Inline">
+    <element name="RelatedTokens">
+      <oneOrMore>
+        <ref name="TokenIdentifier"/>
+      </oneOrMore>
+    </element>
+  </define>
+
+  <define name="RelatedTokens.Group">
+    <element name="RelatedTokens">
+      <optional>
+        <attribute name="title"><text/></attribute>
+      </optional>
+      <oneOrMore>
+        <ref name="TokenIdentifier"/>
+      </oneOrMore>
+    </element>
+  </define>
+
+  <define name="RelatedDocuments">
+    <element name="RelatedDocuments">
+      <oneOrMore>
+        <choice>
+          <ref name="NodeRef"/>
+          <ref name="URL"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
+
+  <define name="RelatedSampleCode">
+    <element name="RelatedSampleCode">
+      <oneOrMore>
+        <choice>
+          <ref name="NodeRef"/>
+          <ref name="URL"/>
+        </choice>
+      </oneOrMore>
+    </element>
+  </define>
+
+  <define name="TokenIdentifier">
+    <element name="TokenIdentifier">
+      <choice>
+        <text/>
+        <interleave>
+          <ref name="Name"/>
+          <optional>
+            <element name="Type"><text/></element>
+          </optional>
+          <optional>
+            <element name="Scope"><text/></element>
+          </optional>
+          <optional>
+            <element name="APILanguage"><text/></element>
+          </optional>
+        </interleave>
+      </choice>
+    </element>
+  </define>
+
+  <define name="NodeRef">
+    <element name="NodeRef">
+      <attribute name="refid"><data type="int"/></attribute>
+    </element>
+  </define>
+
+  <define name="URL">
+    <element name="URL">
+      <attribute name="name"/>
+      <text/>
+    </element>
+  </define>
+  
+  <define name="Parameters">
+    <element name="Parameters">
+      <oneOrMore>
+        <ref name="Parameter"/>
+      </oneOrMore>
+    </element>
+  </define>
+  
+  <define name="Parameter">
+    <element name="Parameter">
+      <ref name="Name"/>
+      <ref name="Abstract"/>
+    </element>
+  </define>
+  
+  <define name="ReturnValue">
+    <element name="ReturnValue">
+      <ref name="Abstract"/>
+    </element>
+  </define>
+
+  <define name="ThrowsDiscussion">
+    <element name="ThrowsDiscussion">
+      <ref name="TextTypeAttr"/>
+      <text/>
+    </element>
+  </define>
+
+  <define name="Abstract">
+    <element name="Abstract">
+      <ref name="TextTypeAttr"/>
+      <text/>
+    </element>
+  </define>
+  
+  <define name="Name">
+    <element name="Name">
+      <text/>
+    </element>
+  </define>
+  
+</grammar>

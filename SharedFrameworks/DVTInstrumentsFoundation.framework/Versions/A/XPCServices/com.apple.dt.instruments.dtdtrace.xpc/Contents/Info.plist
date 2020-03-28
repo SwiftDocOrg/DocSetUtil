@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BuildMachineOSBuild</key>
+	<string>17C43</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>com.apple.dt.instruments.dtdtrace</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.apple.dt.instruments.dtdtrace.xpc</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>com.apple.dt.instruments.dtdtrace</string>
+	<key>CFBundlePackageType</key>
+	<string>XPC!</string>
+	<key>CFBundleShortVersionString</key>
+	<string>9.2</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleSupportedPlatforms</key>
+	<array>
+		<string>MacOSX</string>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>63755</string>
+	<key>DTCompiler</key>
+	<string>com.apple.compilers.llvm.clang.1_0</string>
+	<key>DTPlatformBuild</key>
+	<string>9C37a</string>
+	<key>DTPlatformVersion</key>
+	<string>GM</string>
+	<key>DTSDKBuild</key>
+	<string>17C59</string>
+	<key>DTSDKName</key>
+	<string>macosx10.13internal</string>
+	<key>DTXcode</key>
+	<string>0920</string>
+	<key>DTXcodeBuild</key>
+	<string>9C37a</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2017 Apple Inc. All rights reserved.</string>
+	<key>XPCService</key>
+	<dict>
+		<key>ServiceType</key>
+		<string>Application</string>
+		<key>_AllowedClients</key>
+		<array>
+			<string> identifier = com.apple.dt.Instruments and (anchor apple or (anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9])) and info[CFBundleShortVersionString] = "9.2"</string>
+			<string> identifier = com.apple.dt.InstrumentsCLI and (anchor apple or (anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9])) and info[CFBundleShortVersionString] = "9.2"</string>
+			<string> identifier = com.apple.DTServiceHub and (anchor apple or (anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9])) and info[CFBundleShortVersionString] = "9.2"</string>
+			<string> identifier = com.apple.dt.instruments.backgroundinstruments and (anchor apple or (anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9])) and info[CFBundleShortVersionString] = "9.2"</string>
+			<string> identifier = com.apple.dt.instruments.EnergyDiagnostics and (anchor apple or (anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9])) and info[CFBundleShortVersionString] = "9.2"</string>
+		</array>
+		<key>_RoleAccount</key>
+		<string>root</string>
+	</dict>
+</dict>
+</plist>

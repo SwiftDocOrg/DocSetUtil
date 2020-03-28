@@ -1,0 +1,3199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<engineering-types>
+	<type>
+		<mnemonic>invalid</mnemonic>
+		<title>Invalid Engineering Type</title>
+		<enum>XRInvalidEngineeringTypeID</enum>
+		<class>invalid</class>
+		<usage>
+			Sentinel used throughout the Analysis Core to indicate that an engineering type return value is invalid
+		</usage>
+        <display-convention>
+            <note>
+                Never shown in UI.
+            </note>
+            <family>Internal</family>
+            <column-pt-width>100</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>row-number</mnemonic>
+		<title>Row ID</title>
+		<enum>XRTableRowNumberTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<deprecated>true</deprecated>
+		<usage>
+			Synthetic row id given to data as it's inserted into Analysis Core tables.  This type is not something that 
+			should appear in a schema.  It's purpose is to have a unique key that makes each row in a table unique.  
+			The value if displayed is useful only to Instruments' developers for debugging.
+		</usage>
+		<display-convention>
+			<note>
+				This generally should not be shown on a UI.
+			</note>
+            <family>Internal</family>
+            <column-pt-width>100</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>event-count</mnemonic>
+		<title>Event Count</title>
+		<enum>XREventCountTypeID</enum>
+		<class>uint32</class>
+		<usage>
+			A count of events.  Usually the biproduct of an aggregate function either in the modeler or in the projectors.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<sentinel>max</sentinel>
+		</encoding-convention>
+	</type>
+
+    <type>
+        <mnemonic>events-per-second</mnemonic>
+        <title>Events Per Second</title>
+        <enum>XREventsPerSecondTypeID</enum>
+        <class>fixed-decimal</class>
+        <usage>
+            The number of events that occurred per second.
+        </usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>100</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+    </type>
+
+	<type>
+		<mnemonic>duration</mnemonic>
+		<title>Duration</title>
+		<enum>XRDurationTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			Duration in nanoseconds.  The respresents the entire span of time an event or state was active or applicable.
+		</usage>
+		<related-type>duration-on-core</related-type>
+		<related-type>duration-waiting</related-type>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>70</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<bit-width>50</bit-width>
+			<sentinel>zero</sentinel>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>percent</mnemonic>
+		<title>Percentage</title>
+		<enum>XRPercentageTypeID</enum>
+		<class>fixed-decimal</class>
+		<usage>
+			A percentage of some value.
+		</usage>
+		<display-convention>
+			<note>This is a fairly generic engineering unit which will receive a fairly generic presentation.</note>
+            <family>General</family>
+            <column-pt-width>40</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<sentinel>max</sentinel>
+		</encoding-convention>
+	</type>
+
+    <type>
+        <mnemonic>system-cpu-percent</mnemonic>
+        <title>System CPU Percentage</title>
+        <enum>XRSystemCPUPercentageTypeID</enum>
+        <class>fixed-decimal</class>
+        <usage>
+            The percentage of the CPUs being used in a system.
+        </usage>
+        <display-convention>
+            <note> This can either be formatted from 0->100%, or from 0->(NUM_CORES*100)%, depending on the user's defaults setting.</note>
+            <family>CPU</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <note> The value stored here should be from 0->(NUM_CORES*100)%</note>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+    </type>
+
+	<type>
+		<mnemonic>tid</mnemonic>
+		<title>TID</title>
+		<enum>XRThreadIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			Generic thread id.  It is unclear, when using this type, which domain the id applies to.  It could be a Mach or POSIX
+			thread id.
+		</usage>
+		<display-convention>
+			<note>
+				TIDs are often good enough to identify a thread, so for display purposes, a well-known name may be substituted for
+		      	this 64-bit integer, if it is available and unambiguous.
+		  	</note>
+            <family>General</family>
+            <column-pt-width>150</column-pt-width>
+		</display-convention>
+        <encoding-convention>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>thread</mnemonic>
+		<title>Thread</title>
+		<enum>XRThreadTypeID</enum>
+		<class>uint64-array</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<attribute>structured</attribute>
+		<usage>
+			A thread.  A thread object contains a TID and a process object, and uniquely identifies a thread in the Analysis Core.
+		</usage>
+		<display-convention>
+			<note>
+				Thread objects typically are presented with a name that reflects the bottom of their callstack, and the
+				process from which they are attached is usually included as well, if the UI would otherwise be ambiguous.
+		  	</note>
+            <family>General</family>
+            <column-pt-width>220</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<note>Encoded as an array, the first slot holding a 64-bit TID and the second slot holding an iid for the process.</note>
+			<array>
+				<slot>tid</slot>
+				<slot>process</slot>
+			</array>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>thread-name</mnemonic>
+		<title>Thread Name</title>
+		<enum>XRThreadNameTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<attribute>structured</attribute>
+		<usage>
+			A name-to-thread mapping.  The thread-name objects hold both a reference to the name string, as well as the thread
+			object it's associated with.
+		</usage>
+		<display-convention>
+			<note>
+				For display purposes, the name string and TID as generally presented.
+		  	</note>
+            <family>General</family>
+            <column-pt-width>200</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<note>Encoded as a uint64 where the MSBs are the iid of the string, and the LSBs are the iid of the thread</note>
+			<packed>
+				<bit-range>
+					<start>63</start> <end>32</end> <type>string</type>
+				</bit-range>
+				<bit-range>
+					<start>31</start> <end>0</end> <type>thread</type>
+				</bit-range>
+			</packed>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>syscall</mnemonic>		
+		<title>System Call</title>
+		<enum>XRSystemCallNameTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>event</attribute>
+		<usage>
+			The name assigned by the OS to a system call.  This name may or may not map to an exposed system call API.
+		</usage>
+		<display-convention>
+			<note>
+				The name contains a BSC_ or MSC_ prefix, depending on if it belongs to the BSD family or Mach family, respectively.
+				This prefix is stripped off at display time and sort time.  This name may or may not map to an exposed system call API.
+
+				This type is typically rendered as an event.
+			</note>
+            <family>I/O</family>
+            <column-pt-width>200</column-pt-width>
+            <treatment>
+                <value>__DEFAULT__</value>
+                <color>Red</color>
+                <icon>s</icon>
+                <value>BSC_read</value>
+                <color>Red</color>
+                <icon>i</icon>
+                <value>BSC_read_nocancel</value>
+                <color>Red</color>
+                <icon>i</icon>
+                <value>BSC_pread</value>
+                <color>Red</color>
+                <icon>i</icon>
+                <value>BSC_recvfrom</value>
+                <color>Red</color>
+                <icon>i</icon>
+                <value>BSC_recvmsg</value>
+                <color>Red</color>
+                <icon>i</icon>
+                <value>BSC_write</value>
+                <color>Red</color>
+                <icon>o</icon>
+                <value>BSC_sendto</value>
+                <color>Red</color>
+                <icon>o</icon>
+                <value>BSC_write_nocancel</value>
+                <color>Red</color>
+                <icon>o</icon>
+                <value>BSC_writev</value>
+                <color>Red</color>
+                <icon>o</icon>
+            </treatment>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>signpost-name</mnemonic>		
+		<title>Signpost Name</title>
+		<enum>XRSignpostNameTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>event</attribute>
+		<usage>
+			The name assigned to a user emitted signpost event.
+		</usage>
+        <display-convention>
+            <note>
+                These are assigned by the user so we try to give them as much room as we can afford.
+            </note>
+            <family>General</family>
+            <column-pt-width>200</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>vm-op</mnemonic>		
+		<title>Virtual Memory Operation</title>
+		<enum>XRVMOperationNameTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>event</attribute>
+		<usage>
+			A virtual memory operation name.
+		</usage>
+        <display-convention>
+            <family>Memory</family>
+            <column-pt-width>135</column-pt-width>
+            <treatment>
+                <value>__DEFAULT__</value>
+                <color>Blue</color>
+                <icon>-</icon>
+                <value>Copy On Write</value>
+                <color>Blue</color>
+                <icon>c</icon>
+                <value>Page Cache Hit</value>
+                <color>Blue</color>
+                <icon>h</icon>
+                <value>Zero Fill</value>
+                <color>Blue</color>
+                <icon>z</icon>
+                
+                <value>Page In</value>
+                <color>Blue</color>
+                <icon>i</icon>
+                <value>Non-Zero Fill</value>
+                <color>Blue</color>
+                <icon>n</icon>
+                <value>Guard Page</value>
+                <color>Blue</color>
+                <icon>g</icon>
+                
+                <value>File Backed Page In</value>
+                <color>Blue</color>
+                <icon>i</icon>
+                <value>Anonymous Memory Page In</value>
+                <color>Blue</color>
+                <icon>i</icon>
+                <value>Decompress Memory</value>
+                <color>Blue</color>
+                <icon>d</icon>
+                
+                <value>Decompress Memory from Swap</value>
+                <color>Blue</color>
+                <icon>s</icon>
+                <value>Page Out</value>
+                <color>Blue</color>
+                <icon>o</icon>
+                <value>Unknown</value>
+                <color>Blue</color>
+                <icon>-</icon>
+            </treatment>
+        </display-convention>
+		<encoding-convention>
+			<enum>
+				<value>Copy On Write</value>
+				<value>Zero Fill</value>
+				<value>Page In</value>
+				<value>Page Cache Hit</value>
+				<value>Non-Zero Fill</value>
+				<value>Guard Page</value>
+				<value>File Backed Page In</value>
+				<value>Anonymous Memory Page In</value>
+				<value>Decompress Memory</value>
+				<value>Decompress Memory from Swap</value>
+                <value>Page Out</value>
+				<value>Unknown</value>
+			</enum>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>kdebug-code</mnemonic>
+		<title>kdebug Code</title>
+		<enum>XRKDebugCodeTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<usage>
+			A kdebug code field value.  These are typically emitted from the kernel (or from user space
+     		via the kernel).  The mapping between names and code is context dependent
+     		based on the class and subclass.
+     	</usage>
+     	<related-type>kdebug-class</related-type>
+     	<related-type>kdebug-subclass</related-type>
+        <display-convention>
+            <note>
+                Codes for kdebug are usually used for debugging, usually in hex.
+            </note>
+            <family>General</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+     </type>
+
+     <type>
+		<mnemonic>kdebug-class</mnemonic>
+		<title>kdebug Class</title>
+		<enum>XRKDebugClassTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<usage>
+			A kdebug class field value.  This value, along with a kdebug-subclass, provide a namespace for a kdebug-code
+     	</usage>
+     	<related-type>kdebug-code</related-type>
+     	<related-type>kdebug-subclass</related-type>
+        <display-convention>
+            <note>
+                Codes for kdebug are usually used for debugging, usually in hex.
+            </note>
+            <family>General</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+     </type>
+
+     <type>
+		<mnemonic>kdebug-subclass</mnemonic>
+		<title>kdebug Subclass</title>
+		<enum>XRKDebugSubclassTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<usage>
+			A kdebug subclass field value.  This value, along with a kdebug-class, provide a namespace for a kdebug-code
+     	</usage>
+     	<related-type>kdebug-code</related-type>
+     	<related-type>kdebug-class</related-type>
+        <display-convention>
+            <note>
+                Codes for kdebug are usually used for debugging, usually in hex.
+            </note>
+            <family>General</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+     </type>
+
+     <type>
+		<mnemonic>kdebug-func</mnemonic>
+		<title>kdebug Function</title>
+		<enum>XRKDebugFunctionTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<usage>
+			Determines if the corresponding kdebug-code is a start/end/point.
+     	</usage>
+     	<related-type>kdebug-code</related-type>
+     	<related-type>kdebug-class</related-type>
+     	<related-type>kdebug-subclass</related-type>
+        <display-convention>
+            <note>
+                Codes for kdebug are usually used for debugging, usually in hex.
+            </note>
+            <family>General</family>
+            <column-pt-width>30</column-pt-width>
+        </display-convention>
+     	<encoding-convention>
+     		<bit-width>2</bit-width>
+     	</encoding-convention>
+     </type>
+
+	<type>
+		<mnemonic>kdebug-arg</mnemonic>
+		<title>kdebug Argument</title>
+		<enum>XRKDebugArgumentTypeID</enum>
+		<class>uint64</class>
+        <attribute>categorical</attribute>
+        <usage>
+			A kdebug code argument value.
+     	</usage>
+     	<related-type>kdebug-code</related-type>
+     	<related-type>kdebug-class</related-type>
+     	<related-type>kdebug-subclass</related-type>
+     	<display-convention>
+     		<note>These arguments are arbitrary and user-defined.  The formatting is hexidecimal by default, but the user
+     			should be able to format with any simple integer formatter because it is such a generic type.
+     		</note>
+            <family>General</family>
+            <column-pt-width>135</column-pt-width>
+     	</display-convention>
+     </type>
+
+     <type>
+     	<mnemonic>start-time</mnemonic>
+     	<title>Start</title>
+     	<enum>XRStartTimeTypeID</enum>
+     	<class>uint64</class>
+     	<usage>
+     		Trace relative start time in nanoseconds of the start of some interesting event.  For data compression reasons,
+     		these values are limited to what can be fit into 50-bits.
+     	</usage>
+     	<related-type>duration</related-type>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>100</column-pt-width>
+        </display-convention>
+     	<encoding-convention>
+     		<bit-width>50</bit-width>
+            <sentinel>max</sentinel>
+     	</encoding-convention>
+	</type>
+
+	<type>
+     	<mnemonic>event-time</mnemonic>
+     	<title>Event Time</title>
+     	<enum>XRRecordedEventTimestampTypeID</enum>
+     	<class>uint64</class>
+     	<usage>
+     		Trace relative start time in nanoseconds of some interesting point-event.
+     	</usage>
+     	<related-type>sample-time</related-type>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>100</column-pt-width>
+        </display-convention>
+     	<encoding-convention>
+     		<bit-width>50</bit-width>
+            <sentinel>max</sentinel>
+     	</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>thread-state</mnemonic>		
+		<title>Thread State</title>
+		<enum>XRThreadStateTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>state</attribute>
+		<usage>
+			A thread state.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+            <treatment>
+                <value>Runnable</value>
+                <color>Red</color>
+                <icon>r</icon>
+                <value>Preempted</value>
+                <color>Orange</color>
+                <icon>p</icon>
+                <value>Throttled</value>
+                <color>Green</color>
+                <icon>t</icon>
+                <value>Running</value>
+                <color>Blue</color>
+                <icon>r</icon>
+
+                <value>Interrupted</value>
+                <color>Orange</color>
+                <icon>i</icon>
+                <value>Blocked</value>
+                <color>Gray</color>
+                <icon>b</icon>
+                <value>Terminated</value>
+                <color>Clear</color>
+                <icon>t</icon>
+                <value>Unknown</value>
+                <color>Clear</color>
+                <icon>-</icon>                
+            </treatment>
+        </display-convention>
+		<encoding-convention>
+			<enum>
+				<value>Running</value>
+				<value>Blocked</value>
+				<value>Interrupted</value>
+				<value>Preempted</value>
+				<value>Terminated</value>
+				<value>Unknown</value>
+				<value>Runnable</value>
+                <value>Throttled</value>
+			</enum>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>device-session</mnemonic>		
+		<title>Device Session ID</title>
+		<enum>XRDeviceSessionTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			A device session identifier.  These identifiers are used to create unique namespaces for process
+			ids, thread ids, and other operating system specific identifiers that cycle at boot time.  Each time
+			a target is booted or detected, it should be assigned a unique identifier.
+		</usage>
+		<display-convention>
+			<note>Not typically displayed</note>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>200</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>pid</mnemonic>
+		<title>Process ID</title>
+		<enum>XRProcessIDTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			A process id (pid).  This is a generic 32-bit process id.  Typically a process object is preferred since
+			it connects the device session and process id together so data between two attachments to a target can be
+			properly separated.
+     	</usage>
+     	<related-type>process</related-type>
+     	<display-convention>
+     		<note>
+     			During display, it may be possible to display the process name along with the pid as long as it's not ambiguous.
+     		</note>
+            <family>General</family>
+            <column-pt-width>60</column-pt-width>
+     	</display-convention>
+     	<encoding-convention>
+     		<sentinel>max</sentinel>
+		</encoding-convention>
+     </type>
+
+     <type>
+		<mnemonic>process</mnemonic>
+		<title>Process</title>
+		<enum>XRProcessTypeID</enum>
+		<class>uint64-array</class>
+		<attribute>categorical</attribute>
+		<attribute>structured</attribute>
+		<usage>
+			A process.  The process object contains both the pid and the session id so that processes can be unique between
+			target device recording sessions.
+		</usage>
+		<display-convention>
+			<note>
+     			During display, it may be possible to display the process name along with the pid as long as it's not ambiguous.
+		  	</note>
+            <family>General</family>
+            <column-pt-width>150</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<note>Encoded as an array, the first slot holding a pid and the second slot holding an iid for the session.</note>
+			<array>
+				<slot>pid</slot>
+				<slot>device-session</slot>
+			</array>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>kperf-bt</mnemonic>
+		<title>kperf Backtrace</title>
+		<enum>XRCoreProfileCallstackTypeID</enum>
+		<class>uint64-array</class>
+		<attribute>categorical</attribute>
+		<attribute>structured</attribute>
+		<usage>
+			A raw backtrace from kperf.  These backtraces come from the kernel and require processing before they can be used 
+			as normal backtraces.  This object contains all the pieces needed for reconstruction.
+		</usage>
+		<related-type>backtrace</related-type>
+		<display-convention>
+			<note>
+     			Debugging display only.  Converting these won't be trivial so it's not something a display formatter should be
+     			trying to do on the fly.
+		  	</note>
+		  	<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>300</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<note>
+				Encoded as an array where the first slot is the backtrace, the second is the PC vale, the 3rd is the processs iid
+				and values after that are register values used in fix up.
+			</note>
+			<array>
+				<slot>text-addresses</slot>
+				<slot>text-address</slot>
+				<slot>process</slot>
+				<remainder>register-content</remainder>
+			</array>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>pmc-events</mnemonic>
+		<title>PMC Data</title>
+		<enum>XRCoreProfilePMCEventsArrayTypeID</enum>
+		<class>uint64-array</class>
+		<attribute>categorical</attribute>
+		<experimental>true</experimental>
+		<usage>
+			An array of PMC values read from the CPU.
+		</usage>
+		<display-convention>
+			<note> This data is not yet used for display purposes </note>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>300</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<note> An array or register values </note>
+			<array>
+				<remainder>register-content</remainder>
+			</array>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>text-addresses</mnemonic>
+		<title>Text Addresses</title>
+		<enum>XRBacktraceFragmentTypeID</enum>
+		<class>uint64-array</class>
+		<attribute>categorical</attribute>
+		<usage>
+			An array of text addresses.  These addresses are most often the call sites of a backtrace, but these fragments
+			can't be properly analyzed until they're turned into a backtrace.
+		</usage>
+		<related-type>backtrace</related-type>
+		<display-convention>
+			<note>
+     			Debugging display only.  Fragments lack the process they came from, so those text addresses can't be converted
+     			to symbols or further analyzed.
+		  	</note>
+		  	<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>150</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<note>
+				The encoding is an array of text addresses.
+			</note>
+			<array>
+				<remainder>text-address</remainder>
+			</array>
+		</encoding-convention>
+	</type>
+    
+    <type>
+        <mnemonic>backtrace</mnemonic>
+        <title>Backtrace</title>
+        <enum>XRBacktraceTypeID</enum>
+        <class>uint64-array</class>
+        <attribute>categorical</attribute>
+        <attribute>structured</attribute>
+        <usage>
+            A backtrace which is a structured list of fragments and the associated pids they come
+            from, since backtrace can be from different processes.
+        </usage>
+        <related-type>backtrace</related-type>
+        <display-convention>
+            <note>
+                Typically shows a compressed format of the last frame and the frame count leading to that
+                frame.  In extended views, the entire symbolicated backtrace is listed.
+            </note>
+            <family>General</family>
+            <column-pt-width>400</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <note>
+                The encoding is an array of packed values, where the 32 MSBs are the process
+                and the 32LSBs is the fragment.
+            </note>
+            <packed>
+                <bit-range>
+                    <start>63</start>
+                    <end>32</end>
+                    <type>process</type>
+                </bit-range>
+                <bit-range>
+                    <start>31</start>
+                    <end>0</end>
+                    <type>text-addresses</type>
+                </bit-range>
+            </packed> 
+        </encoding-convention>
+    </type>
+
+	<type>
+		<mnemonic>text-address</mnemonic>
+		<title>Text Segment Address</title>
+		<enum>XRTextSegmentAddressTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<usage>
+			A text segment address.  There is no process address space associated with this address.
+		</usage>
+		<display-convention>
+			<note>
+				Typically displayed numerically.  Because this text address does not have an associated process, it
+				cannot be converted to a symbol at run time.
+			</note>
+            <family>CPU</family>
+            <column-pt-width>150</column-pt-width>
+		</display-convention>
+	</type>
+
+    <type>
+		<mnemonic>address</mnemonic>
+		<title>Virtual Memory Address</title>
+		<enum>XRVirtualMemoryAddressTypeID</enum>
+		<class>uint64</class>
+        <attribute>categorical</attribute>
+		<usage>
+			A virtual memory address.  There is no process address space associated with this address.
+		</usage>
+		<display-convention>
+			<note>
+				Typically displayed as hex.
+			</note>
+            <family>Memory</family>
+            <column-pt-width>150</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>register-content</mnemonic>
+		<title>Register Content</title>
+		<enum>XRRegisterContentsTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<usage>
+			The value of a CPU register.
+		</usage>
+		<display-convention>
+			<note>
+				Typically displayed as hex.
+			</note>
+            <family>CPU</family>
+            <column-pt-width>150</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>core</mnemonic>
+		<title>CPU Index</title>
+		<enum>XRCPUCoreTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			A logical CPU index.  This number is typically assigned by the kernel at boot time.
+		</usage>
+		<display-convention>
+			<note>Typically displayed like "CPU 0"</note>
+            <family>CPU</family>
+            <column-pt-width>55</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<sentinel>max</sentinel>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>core-state</mnemonic>		
+		<title>CPU State</title>
+		<enum>XRCPUStateTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>state</attribute>
+		<usage>
+			A logical CPU state.
+		</usage>
+        <display-convention>
+            <family>CPU</family>
+            <column-pt-width>150</column-pt-width>
+            <treatment>
+                <value>Handling Interrupt</value>
+                <color>Orange</color>
+                <icon>i</icon>
+                <value>Running</value>
+                <color>Blue</color>
+                <icon>r</icon>
+                <value>Idle</value>
+                <color>Clear</color>
+                <icon>i</icon>
+                <value>Unknown</value>
+                <color>Clear</color>
+                <icon>-</icon>
+            </treatment>
+        </display-convention>
+		<encoding-convention>
+			<enum>
+				<value>Running</value>
+				<value>Idle</value>
+				<value>Handling Interrupt</value>
+				<value>Unknown</value>
+			</enum>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>duration-on-core</mnemonic>
+		<title>Duration on CPU</title>
+		<enum>XRDurationOnCPUTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			Duration in nanoseconds that some event spent running on a logical CPU.
+		</usage>
+		<related-type>duration-waiting</related-type>
+        <display-convention>
+            <family>CPU</family>
+            <column-pt-width>70</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<bit-width>50</bit-width>
+			<sentinel>zero</sentinel>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>duration-waiting</mnemonic>
+		<title>Duration Waiting</title>
+		<enum>XRDurationWaitingTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			Duration in nanoseconds that some event spent waiting (not running on a logical CPU).
+		</usage>
+		<related-type>duration-on-core</related-type>
+        <display-convention>
+            <family>CPU</family>
+            <column-pt-width>70</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<bit-width>50</bit-width>
+			<sentinel>zero</sentinel>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>syscall-arg</mnemonic>
+		<title>System Call Argument</title>
+		<enum>XRSystemCallArgumentTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			An argument supplied to a system call.
+     	</usage>
+     	<display-convention>
+     		<note>These arguments are arbitrary and system-defined.  The formatting is hexidecimal by default, but the user
+     			should be able to format with any simple integer formatter because it is such a generic type.
+     		</note>
+            <family>General</family>
+            <column-pt-width>150</column-pt-width>
+     	</display-convention>
+     </type>
+
+     <type>
+		<mnemonic>syscall-return</mnemonic>
+		<title>System Call Return</title>
+		<enum>XRSystemCallReturnCodeTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			The return value of a system call.
+     	</usage>
+     	<display-convention>
+     		<note>Should be displayed as a signed integer.</note>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+     	</display-convention>
+     </type>
+
+     <type>
+     	<mnemonic>sched-event</mnemonic>
+     	<title>Scheduler Event</title>
+     	<enum>XRSchedulingEventTypeID</enum>
+     	<class>string</class>
+     	<attribute>categorical</attribute>
+     	<attribute>event</attribute>
+		<usage>
+			The name of a scheduling event.
+		</usage>
+        <display-convention>
+            <family>CPU</family>
+            <column-pt-width>150</column-pt-width>
+            <treatment>
+                <value>Run</value>
+                <color>Blue</color>
+                <icon>r</icon>
+                <value>Runnable</value>
+                <color>Red</color>
+                <icon>r</icon>
+                <value>Interrupted</value>
+                <color>Orange</color>
+                <icon>i</icon>
+                <value>Preempted</value>
+                <color>Orange</color>
+                <icon>p</icon>
+                <value>Wait</value>
+                <color>Gray</color>
+                <icon>w</icon>
+                <value>Block</value>
+                <color>Gray</color>
+                <icon>b</icon>
+            </treatment>
+        </display-convention>
+        <encoding-convention>
+            <enum>
+                <value>Run</value>
+                <value>Wait</value>
+                <value>Runnable</value>
+                <value>Preempted</value>
+                <value>Interrupted</value>
+                <value>Block</value>
+            </enum>
+        </encoding-convention>
+
+	</type>
+
+	<type>
+		<mnemonic>sched-priority</mnemonic>
+		<title>Scheduling Priority</title>
+		<enum>XRSchedulingPriorityTypeID</enum>
+		<class>uint32</class>
+		<usage>
+			A priority used by the scheduler to determine which threads to run.
+		</usage>
+        <display-convention>
+            <family>CPU</family>
+            <column-pt-width>55</column-pt-width>
+            <treatment values="ranges">
+                <value>__DEFAULT__</value>
+                <color>Gray</color>
+                <icon>l</icon>
+                <value>31</value>
+                <color>Green</color>
+                <icon>l</icon>
+                <value>37</value>
+                <color>Orange</color>
+                <icon>m</icon>
+                <value>93</value>
+                <color>Red</color>
+                <icon>h</icon>
+            </treatment>
+        </display-convention>
+		<encoding-convention>
+			<sentinel>max</sentinel>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>size-in-bytes</mnemonic>
+		<title>Size in Bytes</title>
+		<enum>XRSizeInBytesTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			Memory or storage size in bytes. This could be a memory allocation size, a file size, or any other similar object that can be measured in bytes.
+		</usage>
+        <display-convention>
+            <family>Memory</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<sentinel>max</sentinel>
+		</encoding-convention>
+	</type>
+
+    <type>
+        <mnemonic>size-in-bytes-per-second</mnemonic>
+        <title>Size in Bytes Per Second</title>
+        <enum>XRSizeInBytesPerSecondTypeID</enum>
+        <class>uint64</class>
+        <usage>
+            Memory or storage size in bytes. This is an integer value, and will not show fractional bytes in its output.
+        </usage>
+        <display-convention>
+            <family>Memory</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+    </type>
+
+    <type>
+        <mnemonic>network-size-in-bytes</mnemonic>
+        <title>Network Size in Bytes</title>
+        <enum>XRNetworkSizeInBytesTypeID</enum>
+        <class>uint64</class>
+        <usage>
+            Network size in bytes. This could be a bytes received or sent.
+        </usage>
+        <display-convention>
+            <family>I/O</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+    </type>
+
+    <type>
+        <mnemonic>network-size-in-bytes-per-second</mnemonic>
+        <title>Size in Bytes Per Second</title>
+        <enum>XRNetworkSizeInBytesPerSecondTypeID</enum>
+        <class>uint64</class>
+        <usage>
+            Network size in bytes. This could be a bytes received or sent per second. This is an integer value, and will not show fractional bytes in its output.
+        </usage>
+        <display-convention>
+            <family>I/O</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+    </type>
+
+    <type>
+        <mnemonic>size-in-pages</mnemonic>
+        <title>Size in Pages</title>
+        <enum>XRSizeInPagesTypeID</enum>
+        <class>uint64</class>
+        <usage>
+            Size in pages.  This could be a memory allocation size, a file size, or any other object
+            that can be measured in pages.
+        </usage>
+        <display-convention>
+            <family>Memory</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+    </type>
+
+	<type>
+		<mnemonic>weight</mnemonic>
+		<title>Time Weight</title>
+		<enum>XRTimeSampleWeightTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			A weight used in profiling to indicate the amount from the total profile that should be assigned
+			to a single sample.
+		</usage>
+		<display-convention>
+			<note>Duration formatting conventions</note>
+            <family>CPU</family>
+            <column-pt-width>70</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<sentinel>max</sentinel>  <!-- used to be zero, but 0 weight is a real value rather than "unset" -->
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>narrative-text</mnemonic>
+		<title>Narrative Text</title>
+		<enum>XRNarrativeTextTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<usage>
+			A fragment of static text that is encoded into a narrative entry
+		</usage>
+		<display-convention>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>500</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>narrative</mnemonic>
+		<title>Narrative</title>
+		<enum>XRNarrativeEntryTypeID</enum>
+		<class>typed-array</class>
+		<attribute>categorical</attribute>
+		<attribute>narrative</attribute>
+		<usage>
+			An entry in narrative.  Typically a narrative can be thought of as a tables of these
+			objects, occurring in chronological order, that tell a story about how something has 
+			evolved, like the life span of a thread, or how a scene is being constructed in a 
+			graphics pipeline.
+		</usage>
+		<display-convention>
+			<note>
+				These are typically recursively displayed, where each piece of the narrative entry 
+				is formatted, and the narrative entry may contain as a piece, another narrative entry.
+			</note>
+            <family>General</family>
+            <column-pt-width>1500</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>narrative-certainty</mnemonic>
+		<title>Narrative Certainty</title>
+		<enum>XRNarrativeEntryCertaintyTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<usage>
+			A narrative entry certainty is a value from 1 to 100 that describes how certain a related 
+			narrative entry is.
+		</usage>
+		<display-convention>
+			<note>
+				Narrative certainties can be given any number of visual treatments, but typically are 
+				not displayed as column values.  They may be rendered as a different text color or background
+				if they are uncertain, say below 50.
+			</note>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>55</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<note>
+				Higher numbers indicate higher certainty, where 100 is absolutely certain, and 0 is 
+				demonstrably questionable.
+			</note>
+			<bit-width>7</bit-width>
+			<sentinel>max</sentinel>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>narrative-significance</mnemonic>
+		<title>Narrative Significance</title>
+		<enum>XRNarrativeEntrySignificanceTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<usage>
+			A narrative entry significance is an enumerated value that describes how important a 
+			related narrative entry is.  They range from "pedantic", which means that the narrative
+			entry is probably just repeating something that's already known, to "universal", which is
+			something so significant that everyone would find it useful to know.
+		</usage>
+		<display-convention>
+			<note>
+				Narrative significance can be given any number of visual treatments, but typically are 
+				not displayed as column values.  They may be filterable and treated with different colors, 
+				or simply collapsed if there is a run of low significant narratives.
+			</note>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>90</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<note>Enumerated type</note>
+			<sentinel>max</sentinel>
+			<enum>
+				<value>Unknown</value>
+				<value>Pedantic</value>
+				<value>Low</value>
+				<value>Situational</value>
+				<value>Universal</value>
+			</enum>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>string</mnemonic>
+		<title>String</title>
+		<enum>XRPrototypeStringTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<usage>
+			Generic string value.  This should only be used for prototyping purposes when the other engineering
+			types aren't a good match for your implementation.  In that case, a radar should be filed to
+			ask the Instruments|X component to add the engineering types you require.
+		</usage>
+        <display-convention>
+            <note>
+                This string could be anything so we should be a little liberal with the sizing.
+            </note>
+            <family>General</family>
+            <column-pt-width>300</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>state</mnemonic>
+		<title>State</title>
+		<enum>XRPrototypeStateStringTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>state</attribute>
+		<usage>
+			Generic string value representing a state.  This should only be used for prototyping purposes when the other engineering
+			types aren't a good match for your implementation.  In that case, a radar should be filed to
+			ask the Instruments|X component to add the engineering types you require.
+		</usage>
+        <display-convention>
+            <note>
+                This string could be anything, but state names are generally short and easy to read quickly.
+            </note>
+            <family>General</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>flame-id</mnemonic>
+		<title>Flame ID</title>
+		<enum>XRPrototypeFlameTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<experimental>true</experimental>
+		<usage>
+			Used in internal prototyping and exploration.  Not a supported type.
+		</usage>
+		<display-convention>
+			<debug-only>true</debug-only>
+            <family>Internal</family>
+            <column-pt-width>80</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>uint64</mnemonic>
+		<title>Unsigned 64-bit Integer</title>
+		<enum>XRPrototypeValueTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			A generic integer value that can be used for prototyping when there aren't other engineering types
+			that match your needs.  In that case, a radar should be filed to ask the Instruments|X component to 
+			add the engineering types you require.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>fixed-decimal</mnemonic>
+		<title>Fixed Decimal Number</title>
+		<enum>XRPrototypeFixedDecimalValueTypeID</enum>
+		<class>fixed-decimal</class>
+		<usage>
+			A generic fixed-decimal value that can be used for prototyping when there aren't other engineering types
+			that match your needs.  In that case, a radar should be filed to ask the Instruments|X component to 
+			add the engineering types you require.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>raw-string</mnemonic>
+		<title>Raw String</title>
+		<enum>XRRawStringTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<usage>
+			Raw/Untyped string value. A generic string that doesn't represent any particular engineering type
+		    For example, this is used during the input stage for kdebug string events, which
+	     	don't have any known meaning yet. This type should not be abused for strings
+		    which do have a more specific type known to them, like a thread-state or console-text.
+        </usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>300</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>console-text</mnemonic>
+		<title>Console Text</title>
+		<enum>XRConsoleOutputTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<usage>
+			Console output text, either from NSLog or stdout, or some other type of text
+     		that is usually destined for a console log.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>1000</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>kdebug-string</mnemonic>
+		<title>kdebug String</title>
+		<enum>XRKDebugStringIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			String ID for strings parsed out of a kdebug stream.  KDebug traces have a mechanism for providing 
+			string/ID pairs.  This is the 64-bit number that represents that string.
+		</usage>
+		<display-convention>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>300</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+     	<mnemonic>clock</mnemonic>
+     	<title>Modeler Clock</title>
+     	<enum>XRModelerClockTypeID</enum>
+     	<class>uint64</class>
+     	<usage>
+     		Trace relative start time in nanoseconds.  Each modeler keeps a clock that determines which timestamp
+     		is currently being processed.
+     	</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>100</column-pt-width>
+        </display-convention>
+     	<encoding-convention>
+     		<bit-width>50</bit-width>
+            <sentinel>max</sentinel>
+     	</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>energy-impact</mnemonic>		
+		<title>Energy Impact</title>
+		<enum>XREnergyImpactTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>state</attribute>
+		<usage>
+			A qualitative description of how much something is contributing to energy usage or battery drain.
+		</usage>
+        <display-convention>
+            <family>Energy</family>
+            <column-pt-width>70</column-pt-width>
+            <treatment>
+                <value>Unknown</value>
+                <color>Clear</color>
+                <icon>-</icon>
+                <value>None</value>
+                <color>Clear</color>
+                <icon>-</icon>
+                <value>High</value>
+                <color>Orange</color>
+                <icon>h</icon>
+                <value>Very Low</value>
+                <color>Green</color>
+                <icon>l</icon>
+                <value>Low</value>
+                <color>Green</color>
+                <icon>l</icon>
+                <value>Very High</value>
+                <color>Red</color>
+                <icon>!</icon>
+            </treatment>
+        </display-convention>
+		<encoding-convention>
+			<enum>
+				<value>None</value>
+				<value>Very Low</value>
+				<value>Low</value>
+				<value>Moderate</value>
+				<value>High</value>
+				<value>Very High</value>
+				<value>Unknown</value>
+			</enum>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>location-event</mnemonic>		
+		<title>Location Event</title>
+		<enum>XRCoreLocationEventTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>event</attribute>
+		<usage>
+			An event from a core location manager object, such as a "requested accuracy changed" event.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>connection-uuid</mnemonic>
+		<title>Visual Connection ID (old)</title>
+		<enum>XRVisualConnectionUUIDTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+        <deprecated>true</deprecated>
+		<usage>
+			An ID for connections between the planes of a graph.
+		</usage>
+		<related-type>connection-uuid64</related-type>
+		<display-convention>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>connection-uuid64</mnemonic>
+		<title>Visual Connection ID</title>
+		<enum>XRVisualConnectionUUID64TypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			An ID for connections between the planes of a graph.  A 64-bit unique identifier (per-core) that aids
+			in visually connecting a row in one table to a row in another table.
+		</usage>
+		<display-convention>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>connection-filter</mnemonic>
+		<title>Visual Connection Filter</title>
+		<enum>XRVisualConnectionFilterTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			An identifier that can be used to filter out drawn visual element.
+		</usage>
+		<display-convention>
+			<note>
+				The graphing code can accept a 64-bit number to use as a filter.
+      			Only rows matching this filter will be drawn. Setting to ~0x0 means always draw the row.
+			</note>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>connection-meta</mnemonic>
+		<title>Visual Connection Attributes</title>
+		<enum>XRVisualConnectionMetadataTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<usage>
+			64-bits of data used to determine how this visual connection should be displayed.
+		</usage>
+		<display-convention>
+			<note>
+				The fields of this attribute set detemine how to visually render a connection
+			</note>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<note>
+				The bits have yet to be defined, but will determine things like arrow head style,
+     			connecting to the top or bottom of the plane, etc...
+			 </note>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>visual-uuid-chain</mnemonic>
+		<title>Visual ID Chain</title>
+		<enum>XRVisualUUIDChainTypeID</enum>
+		<class>uint64-array</class>
+		<attribute>categorical</attribute>
+		<usage>
+			An array of 64-bit unique identifiers (per-core) that aids in visually connecting
+    		various IDs to one another.
+		</usage>
+		<display-convention>
+			<note>
+				Part of the visual connections machinery.
+			</note>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>render-buffer-depth</mnemonic>
+		<title>Render Buffer Depth</title>
+		<enum>XRRenderingBufferDepthTypeID</enum>
+		<class>uint32</class>
+        <deprecated>true</deprecated>
+		<usage>
+			The rendering depth of the frame buffer (e.g, double or triple buffering).
+		</usage>
+		<related-type>connection-uuid64</related-type>
+		<display-convention>
+			<note>
+				This value represents the depth of the frame buffer, and is intended to be used
+     			mainly as a consisten way to provide alternating frame colors for graphing.
+     		</note>
+			<debug-only>true</debug-only>
+            <family>Graphics</family>
+            <column-pt-width>80</column-pt-width>
+            <treatment>
+                <value>__DEFAULT__</value>
+                <color>Gray</color>
+                <icon>-</icon>
+                <value>0</value>
+                <color>Green</color>
+                <icon>-</icon>
+                <value>1</value>
+                <color>Blue</color>
+                <icon>-</icon>
+                <value>2</value>
+                <color>Red</color>
+                <icon>-</icon>
+                <value>3</value>
+                <color>Purple</color>
+                <icon>-</icon>
+                <value>1000</value>
+                <color>Clear</color>
+                <icon>-</icon>
+                <value>1001</value>
+                <color>Gray</color>
+                <icon>-</icon>
+                <value>1002</value>
+                <color>Orange</color>
+                <icon>-</icon>
+                <value>1003</value>
+                <color>Gray</color>
+                <icon>-</icon>
+            </treatment>
+		</display-convention>
+        <encoding-convention>
+            <signed>false</signed>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>metal-object-label</mnemonic>		
+		<title>Metal Object Label</title>
+		<enum>XRMetalObjectLabelTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<usage>
+			The metal framework assigns object labels to its various object types for tracking them.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>metal-encoding-para</mnemonic>
+		<title>Metal Encoding Parallelism</title>
+		<enum>XRMetalEncodingParellismLevelTypeID</enum>
+		<class>uint32</class>
+		<usage>
+			A lane identifier to help separate parallel encoding activities.
+			This value is generated by the Metal modeler as it tries to pack the command buffers into lanes
+			When not packed into lane 0, it implies the framework was working on multiple command
+	    	buffers simultaneously.
+		</usage>
+		<display-convention>
+			<note>
+				Functions like a lane identifier.
+      		</note>
+			<debug-only>true</debug-only>
+            <family>Graphics</family>
+            <column-pt-width>70</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>metal-nesting-level</mnemonic>
+		<title>Metal Encoding Nesting Level</title>
+		<enum>XRMetalEncodingNestingLevelTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<usage>
+			The framework divides up command buffers into different types of work, which can also be divided into
+     		sub-pieces of work.
+		</usage>
+		<display-convention>
+			<debug-only>true</debug-only>
+            <family>Graphics</family>
+            <column-pt-width>70</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>metal-workload-priority</mnemonic>
+		<title>Metal Workload Priority</title>
+		<enum>XRMetalWorkloadPriorityTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			The priority/type of the workload in the Metal framework.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>70</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>metal-command-buffer-id</mnemonic>
+		<title>Metal Command Buffer ID</title>
+		<enum>XRMetalCommandBufferIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			The GPU driver assigns an ID to each Metal command buffer.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>metal-encoder-id</mnemonic>
+		<title>Metal Encoder ID</title>
+		<enum>XRMetalEncoderIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			The GPU driver assigns an ID to each Metal encoder.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>metal-device-id</mnemonic>
+		<title>Metal Device ID</title>
+		<enum>XRMetalDeviceIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			Represents a Metal device.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>metal-compiler-request</mnemonic>
+		<title>Metal Compiler Request ID</title>
+		<enum>XRMetalCompilerRequestIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			An identifer that represents a compilation request for a shader (vertex, fragment, compute).
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-driver-submission</mnemonic>
+		<title>GPU Driver Submission ID</title>
+		<enum>XRGPUDriverSubmissionIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			Each command sent to the GPU has a submission ID assigned to it in.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-driver-segment</mnemonic>
+		<title>GPU Driver Segment ID</title>
+		<enum>XRGPUDriverSegmentIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			Driver submissions are comprised of 1 or more segments, each with their own ID.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-driver-gpu-sub</mnemonic>
+		<title>GPU Driver GPU Submission ID</title>
+		<enum>XRGPUDriverGPUSubmissionIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			Each command sent to the GPU has a submission ID assigned to it.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-driver-channel</mnemonic>
+		<title>GPU Driver Channel ID</title>
+		<enum>XRGPUDriverChannelIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			The GPU channel ID for this GPU submission.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-driver-surface</mnemonic>
+		<title>GPU Driver Surface ID</title>
+		<enum>XRGPUDriverIOSurfaceIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			The IO Surface associated with this GPU submission
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-driver-event-source</mnemonic>
+		<title>GPU Driver Event Source</title>
+		<enum>XRGPUDriverEventSourceTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			A string describing the source of a GPU driver event.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-driver-event</mnemonic>
+		<title>GPU Driver Event</title>
+		<enum>XRGPUDriverEventDescriptionTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>event</attribute>
+		<usage>
+			A string description of a GPU driver event.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-hardware-engine</mnemonic>
+		<title>GPU Hardware Engine</title>
+		<enum>XRGPUHardwareEngineTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			The hardware engine name.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<enum>
+				<value>TA</value>
+				<value>3D</value>
+				<value>Compute</value>
+			</enum>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-engine-state</mnemonic>
+		<title>GPU Engine State</title>
+		<enum>XRGPUHardwareEngineStateTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>state</attribute>
+		<usage>
+			The state of some GPU hardware engine.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>100</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-hardware-trace</mnemonic>
+		<title>GPU Hardware Trace ID</title>
+		<enum>XRGPUHardwareTraceIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			The trace ID associated with some GPU event.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-power-state</mnemonic>
+		<title>GPU Power State</title>
+		<enum>XRGPUHardwarePowerStateTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>state</attribute>
+		<usage>
+			A state string describing the power state of the GPU.
+		</usage>
+        <display-convention>
+            <family>Energy</family>
+            <column-pt-width>80</column-pt-width>
+            <treatment>
+                <value>__DEFAULT__</value>
+                <color>Orange</color>
+                <icon>-</icon>
+                <value>Unknown</value>
+                <color>Red</color>
+                <icon>!</icon>
+                <value>Off</value>
+                <color>Clear</color>
+                <icon>-</icon>
+                <value>On</value>
+                <color>Orange</color>
+                <icon>o</icon>
+            </treatment>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-hardware-event-src</mnemonic>
+		<title>GPU Hardware Event Source</title>
+		<enum>XRGPUHardwareEventSourceTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			A string describing the source of some GPU event.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-hardware-event</mnemonic>
+		<title>GPU Hardware Event</title>
+		<enum>XRGPUHardwareEventDescriptionTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>event</attribute>
+		<usage>
+			A string description of some hardware event.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>gpu-frame-number</mnemonic>
+		<title>GPU Frame Number</title>
+		<enum>XRGPUFrameNumberTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			The GPU frame number. This is expected to just be a trace/application relative number
+     		to track different frames in the UI. This number doesn't actually exist in the driver/HW.
+		</usage>
+        <display-convention>
+            <note>Should be displayed as a unsigned decimal; UINT32_MAX is treated as the sentinel</note>
+            <family>Graphics</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <signed>false</signed>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>displayed-surface-prio</mnemonic>
+		<title>Displayed Surface Priority</title>
+		<enum>XRDisplayedSurfacePriorityTypeID</enum>
+		<class>uint32</class>
+		<usage>
+			The priority of a displayed IOSurface.
+		</usage>
+        <display-convention>
+            <family>Graphics</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>displayed-surface-swap</mnemonic>
+		<title>Displayed Surface Swap</title>
+		<enum>XRDisplayedSurfaceSwapIDTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			An identifier representing the displayed surface swap transaction.
+		</usage>
+        <display-convention>
+            <note>Should be displayed as a hex value where -1 is treated as the sentinel</note>
+            <family>Graphics</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <signed>false</signed>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>displayed-surface-io-surface</mnemonic>
+		<title>Displayed Surface I/O Surface</title>
+		<enum>XRDisplayedSurfaceIOSurfaceTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			Each displayed surface swap or vsync event has up to three IOSurfaces associated with it.
+		</usage>
+        <display-convention>
+            <note>Should be displayed as a hex value where -1 is treated as the non-surface sentinel</note>
+            <family>Graphics</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <signed>false</signed>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>displayed-surface-io-surface-size</mnemonic>
+		<title>Displayed Surface I/O Surface Size</title>
+		<enum>XRDisplayedSurfaceIOSurfaceSizeTypeID</enum>
+		<class>uint32</class>
+		<usage>
+			32-bit unsigned value that represents the width or height of an IOSurface.
+		</usage>
+        <display-convention>
+            <note>Should be displayed as a hex value where -1 is treated as the non-surface sentinel</note>
+            <family>Graphics</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>fps</mnemonic>
+		<title>Frames Per Second</title>
+		<enum>XRFramesPerSecondTypeID</enum>
+		<class>fixed-decimal</class>
+		<usage>
+			Frame per second.  A common metric used to represent the average number of frames an app is
+     		rendering per second.
+		</usage>
+		<display-convention>
+			<note>Usually represented by a 1 decimal place float and an FPS suffix</note>
+            <family>Graphics</family>
+            <column-pt-width>80</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>bit-rate</mnemonic>
+		<title>Bit Rate</title>
+		<enum>XRBitRateTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			A rate in bits.  This could be I/O or networking or anything else measured in bits per second.
+		</usage>
+        <display-convention>
+            <family>I/O</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>size-in-pts</mnemonic>
+		<title>Size in Points</title>
+		<enum>XRSizeInPointsTypeID</enum>
+		<class>uint64-array</class>
+		<attribute>categorical</attribute>
+		<usage>
+			A size in points that a particular piece of geometry is.  This is implemented as 
+     		a 64-bit integer array, so the number of dimensions is arbitrary, by it's likely that (width, height)
+    		will be the most common use.
+		</usage>
+		<related-type>size-in-pixels</related-type>
+		<display-convention>
+            <note>Displayed as a tuple, separated by comma</note>
+            <family>Graphics</family>
+            <column-pt-width>100</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>size-in-pixels</mnemonic>
+		<title>Size in Pixels</title>
+		<enum>XRSizeInPixelsTypeID</enum>
+		<class>uint64-array</class>
+		<attribute>categorical</attribute>
+		<usage>
+			A size in pixels that a particular piece of geometry is.  This is implemented as 
+     		a 64-bit integer array, so the number of dimensions is arbitrary, by it's likely that (width, height)
+    		will be the most common use.
+		</usage>
+		<related-type>size-in-pts</related-type>
+		<display-convention>
+			<note>Displayed as a tuple, separated by commas</note>
+            <family>Graphics</family>
+            <column-pt-width>100</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>load</mnemonic>
+		<title>System Load</title>
+		<enum>XRSystemLoadTypeID</enum>
+		<class>fixed-decimal</class>
+		<usage>
+			System load or system load average.  Computed like "uptime" where the number
+     		is the number of threads currently on a CPU plus the number of threads that are ready to run.
+		</usage>
+		<display-convention>
+			<note>Displayed with 2 decimal points of precision</note>
+            <family>CPU</family>
+            <column-pt-width>80</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>commitment</mnemonic>
+		<title>Commitment Level</title>
+		<enum>XRLoadCommitmentTypeID</enum>
+		<class>string</class>
+		<usage>
+			For a component that can be stressed due to a load, such as CPU or memory.
+		</usage>
+        <display-convention>
+            <note>Displayed with 2 decimal points of precision</note>
+            <family>CPU</family>
+            <column-pt-width>80</column-pt-width>
+            <treatment>
+                <value>Partial</value>
+                <color>Green</color>
+                <icon>p</icon>
+
+                <value>Full</value>
+                <color>Green</color>
+                <icon>f</icon>
+
+                <value>Over</value>
+                <color>Orange</color>
+                <icon>!</icon>
+
+                <value>Unknown</value>
+                <color>Clear</color>
+                <icon>-</icon>
+            </treatment>
+        </display-convention>
+		<encoding-convention>
+			<enum>
+				<value>Partial</value>
+				<value>Full</value>
+				<value>Over</value>
+				<value>Unknown</value>
+			</enum>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>config-id</mnemonic>
+		<title>Configuration ID</title>
+		<enum>XRConfigurationIDTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			Sometimes modelers require a sophisticated configuration to be fed to them
+		    via an Analysis Core table.  This identifier is a unique ID that allows the modeler to know
+		    which key/value pairs go together to form a specific configuration element.  This is similar
+		    to a record identifier, or a tuple identifier.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>key</mnemonic>
+		<title>Configuration Key</title>
+		<enum>XRConfigurationKeyTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			An identifier string used in a key/value configuration table for modelers to
+     		receive complex configurations.  This type is suitable for storing the "key" portion of the pair.
+		</usage>
+		<related-type>config-id</related-type>
+		<related-type>string-value</related-type>
+		<related-type>int64-value</related-type>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>string-value</mnemonic>
+		<title>Configuration String Value</title>
+		<enum>XRConfigurationStringValueTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<usage>
+			A value string used in a key/value configuration table for modelers to
+		    receive complex configurations.  This stores the "value" portion of a configuration pair when
+		    the value is a string.
+		</usage>
+		<related-type>key</related-type>
+		<related-type>config-id</related-type>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>int64-value</mnemonic>
+		<title>Configuration 64-bit Integer Value</title>
+		<enum>XRConfigurationInt64ValueTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			An integer value used in a key/value configuration table for modelers to
+    		receive complex configurations.  This stores the "value" portion of a configuration pair when
+		    the value is a 64-bit integer.
+		</usage>
+		<related-type>key</related-type>
+		<related-type>config-id</related-type>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>interval</mnemonic>
+		<title>Time Interval</title>
+		<enum>XRTimeIntervalTypeID</enum>
+		<class>uint64-array</class>
+		<usage>
+			A time interval to be used when two an interval needs to be processed as a single value and not
+			the typical pair of start time and duration columns.
+		</usage>
+		<display-convention>
+			<note>Displayed as "start-time (duration)".</note>
+            <family>General</family>
+            <column-pt-width>200</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<array>
+				<slot>start-time</slot>
+				<slot>duration</slot>
+			</array>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>fd</mnemonic>
+		<title>File Descriptor</title>
+		<enum>XRFileDescriptorTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			UNIX file descriptor.
+		</usage>
+        <display-convention>
+            <note>Should be displayed as a signed value where -1 is treated as an error</note>
+            <family>I/O</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<note>
+				-1 is valid, but the implementation type is unsigned.  A cast to a signed value should 
+				provide the correct conversion.
+			</note>
+			<signed>true</signed>
+			<sentinel>max</sentinel>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>arg-signature</mnemonic>
+		<title>Symbol Argument</title>
+		<enum>XRSymbolicArgumentTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<usage>
+			Argument or return value signature.  Typically an argument to a function as it's expressed 
+			in symbolic constants rather than a numeric value, such as "R_OK|W_OK|X_OK" or "NSStringEncodingConversionAllowLossy".
+		</usage>
+        <display-convention>
+            <family>I/O</family>
+            <column-pt-width>200</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>errno</mnemonic>
+		<title>Symbol Argument</title>
+		<enum>XRSymbolicErrnoValueTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<usage>
+			errno expressed as a symbolic constant, such as EACCES or EPERM.
+		</usage>
+        <display-convention>
+            <family>I/O</family>
+            <column-pt-width>70</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>any</mnemonic>
+		<title>Any Type</title>
+		<enum>XRAnyTypeID</enum>
+		<class>typed-array</class>
+		<usage>
+			Allows the for any engineering value to be stored in a column that specifies
+     		this type.  The API will generally insulate the caller who's reading an object value
+     		of the "ANY" type.  Storing values of this type can be more expensive because they're necessarily
+     		encoded as typed arrays of length 1.  They should only be used under tightly controlled
+     		circumstances where flexibility is needed over performance/memory.
+		</usage>
+        <display-convention>
+            <note>Could be anything.  Need to reserve enough room for a realistic case</note>
+            <family>General</family>
+            <column-pt-width>200</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>connection-route</mnemonic>
+		<title>Visual Connection Route</title>
+		<enum>XRConnectionRouteTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			An string identifying the type of connection chain. This is useful for identifying related types of connections,
+     		allowing for UI operations like filtering the visible set by this name.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>150</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>roi-scope</mnemonic>
+		<title>Region of Interest Scope</title>
+		<enum>XRRegionOfInterestScopeTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			Indicates which scope this region of interest applies to.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>70</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<enum>
+				<value>Host</value>
+				<value>Thread</value>
+				<value>Core</value>
+			</enum>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>roi-kind</mnemonic>
+		<title>Region of Interest Kind</title>
+		<enum>XRRegionOfInterestKindTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			Describes the type of a region of interest, such as "Signpost" or "Life Cycle Event".
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>150</column-pt-width>
+            <treatment>
+                <value>KDebug Signpost</value>
+                <color>Red</color>
+                <icon>s</icon>
+                <value>Signpost</value>
+                <color>Blue</color>
+                <icon>s</icon>
+                <value>GCD Performance</value>
+                <color>Purple</color>
+                <icon>g</icon>
+            </treatment>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>layout-id</mnemonic>
+		<title>Layout ID</title>
+		<enum>XRLayoutIDTypeID</enum>
+		<class>uint32</class>
+		<attribute>identifier</attribute>
+		<usage>
+			For modelers that perform layout for overlapping regions, this id acts as a 
+     		numerically sortable indicator as to which "lane" this row should be graphed in such that
+     		it will not visually overlap with anything near it.
+		</usage>
+		<display-convention>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>70</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>event-concept</mnemonic>
+		<title>Event Concept</title>
+		<enum>XREventConceptTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			Used as an adjective to describe another type. Such as "Warning", or "Error".
+     		This also may contain simple shapes or the alphabet, for uses like providing images
+     		that help explain the type of thing being drawn.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>70</column-pt-width>
+            <treatment>
+                <value>Blue</value>
+                <color>Blue</color>
+                <icon>-</icon>
+                <value>Green</value>
+                <color>Green</color>
+                <icon>-</icon>
+                <value>Purple</value>
+                <color>Purple</color>
+                <icon>-</icon>
+                <value>Orange</value>
+                <color>Orange</color>
+                <icon>-</icon>
+                <value>Red</value>
+                <color>Red</color>
+                <icon>-</icon>
+                <value>Blue2</value>
+                <color>Blue2</color>
+                <icon>-</icon>
+                <value>Green2</value>
+                <color>Green2</color>
+                <icon>-</icon>
+                <value>Purple2</value>
+                <color>Purple2</color>
+                <icon>-</icon>
+                <value>Orange2</value>
+                <color>Orange2</color>
+                <icon>-</icon>
+                <value>Red2</value>
+                <color>Red2</color>
+                <icon>-</icon>
+                <value>Signpost</value>
+                <color>Red</color>
+                <icon>s</icon>
+                <value>Critical</value>
+                <color>Red</color>
+                <icon>!</icon>
+                <value>High</value>
+                <color>Red</color>
+                <icon>h</icon>
+                <value>Moderate</value>
+                <color>Orange</color>
+                <icon>m</icon>
+                <value>Low</value>
+                <color>Green</color>
+                <icon>l</icon>
+                <value>Very Low</value>
+                <color>Gray</color>
+                <icon>l</icon>
+                <value>Pedantic</value>
+                <color>Gray</color>
+                <icon>-</icon>
+            </treatment>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>capability</mnemonic>
+		<title>Capability ID</title>
+		<enum>XRCapabilityTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			A string identifier that indicates a target's capability.  For example, a target
+     		device which is running OS X exports the capability "com.apple.osx". 
+		</usage>
+		<related-type>version</related-type>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>200</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>version</mnemonic>
+		<title>Version Number</title>
+		<enum>XRVersionNumberTypeID</enum>
+		<class>uint32</class>
+		<attribute>identifier</attribute>
+		<usage>
+			A single numerical version number.  This energineering unit is often used with
+     		an capability for example to indicate what version a capability supports.
+		</usage>
+		<related-type>capability</related-type>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>event-type</mnemonic>
+		<title>Log Event Type</title>
+		<enum>XROSLogEventTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>event</attribute>
+		<usage>
+			A string describing the type of log event. "os_signpost", "os_log_debug", etc...
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>100</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>os-signpost-identifier</mnemonic>
+		<title>os_signpost Identifier</title>
+		<enum>XROSSignpostIdentifierTypeID</enum>
+		<class>uint64</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			A 64-bit identifier that uniquely identifies a call to os_signpost_begin() for a given process. 
+		</usage>
+		<display-convention>
+			<debug-only>true</debug-only>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<note>The value 0 is illegal (i.e., processes will start counting at 1).</note>
+			<sentinel>zero</sentinel>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>format-string</mnemonic>
+		<title>Format String</title>
+		<enum>XROSLogFormatStringTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			The raw format string the user provided in their logging API call. 
+		</usage>
+		<display-convention>
+			<note>These can be displayed as-is for aggregation by format string</note>
+            <family>General</family>
+            <column-pt-width>300</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>os-log-integer-argument</mnemonic>
+		<title>OS Logging Integer Argument</title>
+		<enum>XROSLogIntegerArgumentTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			An integer that was written as an argument to an os_log() or os_signpost() format string. 
+		</usage>
+		<display-convention>
+			<note>This is really user defined, so it may need flexible formatting options</note>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>os-log-float-argument</mnemonic>
+		<title>OS Logging Floating-point Argument</title>
+		<enum>XROSLogFloatArgumentTypeID</enum>
+		<class>fixed-decimal</class>
+		<usage>
+			A float that was written as an argument to an os_log() or os_signpost() format string 
+		</usage>
+		<display-convention>
+			<note>This is really user defined, so it may need flexible formatting options</note>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+		</display-convention>
+	</type>
+
+	<type>
+		<mnemonic>os-log-string-argument</mnemonic>
+		<title>OS Logging String Argument</title>
+		<enum>XROSLogStringArgumentTypeID</enum>
+		<class>string</class>
+		<usage>
+			A string that was written as an argument to an os_log() or os_signpost() format string. This includes custom formatted
+     		objects/structures, as they are converted to a string prior to being handled by the analysis core. 
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>200</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>subsystem</mnemonic>
+		<title>OS Logging Subsystem</title>
+		<enum>XROSLogSubsystemTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			A string describing the subsystem that owns this OS Logging event. This is most likely a reverse-DNS formatted string. 
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>100</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>category</mnemonic>
+		<title>OS Logging Category</title>
+		<enum>XROSLogCategoryTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>identifier</attribute>
+		<usage>
+			A string describing the category of the OS Logging event. This is a more fine-grained scope than the subsystem. 
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>100</column-pt-width>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>app-period</mnemonic>
+		<title>Application Period</title>
+		<enum>XRApplicationPeriodTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>state</attribute>
+		<usage>
+			Describes an application state.  There may be several concurrently asserted, such
+     		as "Running Foreground" and "Spinning", hense the term "period" is used since we use "state"
+     		to represent mutually exclusive states. 
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>100</column-pt-width>
+            <treatment>
+                <value>__DEFAULT__</value>
+                <color>Blue</color>
+                <icon>l</icon>
+
+                <value>Launching</value>
+                <color>Purple</color>
+                <icon>l</icon>
+                <value>Foreground</value>
+                <color>Blue</color>
+                <icon>f</icon>
+                <value>Foreground - Active</value>
+                <color>Blue</color>
+                <icon>a</icon>
+                <value>Foreground - Inactive</value>
+                <color>Purple</color>
+                <icon>i</icon>
+                <value>Background</value>
+                <color>Gray</color>
+                <icon>b</icon>
+                <value>Unresponsive</value>
+                <color>Red</color>
+                <icon>!</icon>
+                <value>Suspended</value>
+                <color>Gray</color>
+                <icon>-</icon>
+                <value>Initializing</value>
+                <color>Purple</color>
+                <icon>i</icon>
+                <value>Over CPU Budget</value>
+                <color>Red</color>
+                <icon>!</icon>
+            </treatment>
+        </display-convention>
+	</type>
+
+	<type>
+		<mnemonic>kdebug-signpost-variant</mnemonic>
+		<title>kdebug Signpost Variant</title>
+		<enum>XRKDebugSignpostVariantTypeID</enum>
+		<class>string</class>
+		<attribute>categorical</attribute>
+		<attribute>event</attribute>
+		<usage>
+			Specifies if the KDebug signpost is a "Start", "End", or "Point" (also known as NONE) event.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>70</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<enum>
+				<value>Start</value>
+				<value>End</value>
+				<value>Point</value>
+			</enum>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>vsync-timestamp</mnemonic>
+		<title>Vsync Time</title>
+		<enum>XRVSYNCTimestampTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			The time a VSYNC event was recorded in trace relative nanoseconds
+		</usage>
+		<display-convention>
+			<note>High resolution timestamp formatting</note>
+            <family>Graphics</family>
+            <column-pt-width>100</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<bit-width>50</bit-width>
+			<sentinel>max</sentinel>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>sample-count</mnemonic>
+		<title>Sample Count</title>
+		<enum>XRSampleCountTypeID</enum>
+		<class>uint32</class>
+		<usage>
+			Indicates that this is the number of samples that have been accumulated, distinct 
+    		from event-count.
+		</usage>
+		<related-type>event-count</related-type>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<sentinel>max</sentinel>
+		</encoding-convention>
+	</type>
+
+	<type>
+		<mnemonic>process-uid</mnemonic>
+		<title>Process User ID</title>
+		<enum>XRProcessUIDTypeID</enum>
+		<class>uint32</class>
+        <attribute>categorical</attribute>
+        <attribute>identifier</attribute>
+		<usage>
+			The user ID of a process.
+		</usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>120</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<sentinel>max</sentinel>
+		</encoding-convention>
+	</type>
+
+    <type>
+        <mnemonic>process-gid</mnemonic>
+        <title>Process Group ID</title>
+        <enum>XRProcessGroupIDTypeID</enum>
+        <class>uint32</class>
+        <usage>
+            The group ID of a process.
+        </usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>120</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <sentinel>max</sentinel>
+        </encoding-convention>
+    </type>
+
+	<type>
+		<mnemonic>boolean</mnemonic>
+		<title>Boolean</title>
+		<enum>XRBooleanTypeID</enum>
+		<class>uint32</class>
+		<attribute>categorical</attribute>
+		<usage>
+			A yes/no boolean value.  Encoded as 0 and 1.  Other values are illegal.
+		</usage>
+		<display-convention>
+			<note>Displays "Yes" or "No" or "n/a"</note>
+            <family>General</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+		<encoding-convention>
+			<bit-width>2</bit-width>
+			<sentinel>max</sentinel>
+			<enum>
+				<value>No</value>
+				<value>Yes</value>
+			</enum>
+		</encoding-convention>
+	</type>
+    
+	<type>
+		<mnemonic>sample-time</mnemonic>
+		<title>Sample Time</title>
+		<enum>XRSampleTimestampTypeID</enum>
+		<class>uint64</class>
+		<usage>
+			The trace relative timestamp in nanoseconds of when a particular sample was taken.
+		</usage>
+		<display-convention>
+			<note>High resolution timestamp formatting</note>
+            <family>General</family>
+            <column-pt-width>100</column-pt-width>
+		</display-convention>
+		<encoding-convention>
+			<bit-width>50</bit-width>
+			<sentinel>max</sentinel>
+		</encoding-convention>
+	</type>
+
+    <type>
+        <mnemonic>cpu-arch-name</mnemonic>
+        <title>CPU Arch Name</title>
+        <enum>XRCPUArchNameTypeID</enum>
+        <class>string</class>
+        <attribute>categorical</attribute>
+        <usage>
+            The human-readable name of the CPU architecture.
+        </usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+    </type>
+
+    <type>
+        <mnemonic>process-status-name</mnemonic>
+        <title>Process Status</title>
+        <enum>XRProcessStatusTypeID</enum>
+        <class>string</class>
+        <attribute>categorical</attribute>
+        <usage>
+            A string describing the current state of the process.
+        </usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>90</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <enum>
+                <value>Creating</value>
+                <value>Runnable</value>
+                <value>Sleeping</value>
+                <value>Stopped</value>
+                <value>Zombie</value>
+                <value>Unknown</value>
+            </enum>
+        </encoding-convention>
+    </type>
+    
+    <type>
+        <mnemonic>text-symbol</mnemonic>
+        <title>Executable Code</title>
+        <enum>XRTextSymbolTypeID</enum>
+        <class>uint64-array</class>
+        <attribute>categorical</attribute>
+        <attribute>structured</attribute>
+        <usage>
+            An address from a specific process that represents executable code in that process's address space.
+        </usage>
+        <display-convention>
+            <note>
+                The UI will attempt to provide a symbol name, library, and possibly source line information for the given address if one is available.
+                The UI will also attempt to show the disassembly as a possible action.
+            </note>
+            <family>CPU</family>
+            <column-pt-width>400</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <note>Encoded as an array.  The first entry is the IID for the process and the second is the text address in that address space.</note>
+            <array>
+                <slot>process</slot>
+                <slot>text-address</slot>
+            </array>
+        </encoding-convention>
+    </type>
+    
+    <type>
+        <mnemonic>mach-absolute-time</mnemonic>
+        <title>Mach Absolute Time</title>
+        <enum>XRMachAbsoluteTimeTypeID</enum>
+        <class>uint64</class>
+        <usage>
+            A value from mach_absolute_time().  This value is not relative to the start of the trace.  Typically
+            it's used for timing event durations.  Sometimes it's is used as a semi-unique ID.
+        </usage>
+        <related-type>sample-time</related-type>
+        <related-type>event-time</related-type>
+        <display-convention>
+            <note>
+                The UI will attempt to display the timestamp as time of day.
+            </note>
+            <family>General</family>
+            <column-pt-width>100</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <bit-width>50</bit-width>
+        </encoding-convention>
+    </type>
+    
+    <type>
+        <mnemonic>event</mnemonic>
+        <title>Event Name</title>
+        <enum>XRPrototypeEventTypeID</enum>
+        <class>string</class>
+        <attribute>categorical</attribute>
+        <attribute>event</attribute>
+        <usage>
+            A string describing the type of event. "open", "close", etc...  This type is typically reserved
+            for prototyping.  More explicity event types should be created when possible.
+        </usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>100</column-pt-width>
+        </display-convention>
+    </type>
+    
+    <type>
+        <mnemonic>byte</mnemonic>
+        <title>Byte</title>
+        <enum>XROctetTypeID</enum>
+        <class>uint32</class>
+        <usage>
+            A byte of arbitrary data.
+        </usage>
+        <display-convention>
+            <note>
+                Displayed as a value between 0-255
+            </note>
+            <family>General</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <bit-width>8</bit-width>
+        </encoding-convention>
+    </type>
+    
+    <type>
+        <mnemonic>eight-byte-array</mnemonic>
+        <title>Byte Array</title>
+        <enum>XREightByteArrayTypeID</enum>
+        <class>uint64</class>
+        <attribute>categorical</attribute>
+        <usage>
+            An eight byte array, packed into a uint64 and stored in network byte order.
+        </usage>
+        <related-type>uint64</related-type>
+        <display-convention>
+            <note>
+                The value will be stored in network byte order, so it will be first converted to host
+                byte order then converted to a hex string.
+            </note>
+            <family>General</family>
+            <column-pt-width>120</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <note>Encoded in network byte order</note>
+            <packed>
+                <bit-range>
+                    <start>63</start> <end>56</end> <type>byte</type>
+                </bit-range>
+                <bit-range>
+                    <start>55</start> <end>48</end> <type>byte</type>
+                </bit-range>
+                <bit-range>
+                    <start>47</start> <end>40</end> <type>byte</type>
+                </bit-range>
+                <bit-range>
+                    <start>39</start> <end>32</end> <type>byte</type>
+                </bit-range>
+                <bit-range>
+                    <start>31</start> <end>24</end> <type>byte</type>
+                </bit-range>
+                <bit-range>
+                    <start>23</start> <end>16</end> <type>byte</type>
+                </bit-range>
+                <bit-range>
+                    <start>15</start> <end>8</end> <type>byte</type>
+                </bit-range>
+                <bit-range>
+                    <start>7</start> <end>0</end> <type>byte</type>
+                </bit-range>
+            </packed>
+        </encoding-convention>
+    </type>
+    
+    <type>
+        <mnemonic>uuid</mnemonic>
+        <title>128-bit UUID</title>
+        <enum>XRUUIDTypeID</enum>
+        <class>uint64-array</class>
+        <attribute>categorical</attribute>
+        <attribute>structured</attribute>
+        <usage>
+            A universally unique identifier, as specified by ISO/IEC 11578:1996 or ISO/IEC 9834-8:2005.
+        </usage>
+        <display-convention>
+            <note>
+                The UUID will be displayed in string form, such as 123e4567-e89b-12d3-a456-426655440000.
+            </note>
+            <family>General</family>
+            <column-pt-width>300</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <note>Encoded as an array of 2 8-byte arrays, the first being the most significant bits of the UUID
+            and the second being the least.</note>
+            <array>
+                <slot>eight-byte-array</slot>
+                <slot>eight-byte-array</slot>
+            </array>
+        </encoding-convention>
+    </type>
+
+    <type>
+        <mnemonic>instrument-type</mnemonic>
+        <title>Instrument Type</title>
+        <enum>XRInstrumentTypeTypeID</enum>
+        <class>string</class>
+        <attribute>categorical</attribute>
+        <attribute>identifier</attribute>
+        <usage>
+            The unique identifier for an instrument type, such as "com.apple.dt.time-profiler".
+        </usage>
+        <display-convention>
+            <note>
+                An instrument identifier used as a reference, usually internally.
+            </note>
+            <family>General</family>
+            <column-pt-width>400</column-pt-width>
+        </display-convention>
+    </type>
+    
+    <type>
+        <mnemonic>glass-state</mnemonic>
+        <title>Glass State</title>
+        <enum>XRGPURenderStateTypeID</enum>
+        <class>string</class>
+        <attribute>categorical</attribute>
+        <attribute>state</attribute>
+        <usage>
+            Represents the state of a display, e.g. "Swap", "Idle", "Scanning".
+        </usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>80</column-pt-width>
+        </display-convention>
+    </type>
+    
+    <type>
+        <mnemonic>mach-timebase-info-field</mnemonic>
+        <title>Mach timebase Field</title>
+        <enum>XRMachTimebaseInfoFieldTypeID</enum>
+        <class>uint32</class>
+        <usage>
+            A numerator or denominator of a Mach timebase info structure.
+        </usage>
+        <display-convention>
+            <family>General</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+    </type>
+    
+    <type>
+        <mnemonic>mach-timebase-info</mnemonic>
+        <title>Structure needed convert a Mach absolute time in to seconds</title>
+        <enum>XRMachTimebaseInfoTypeID</enum>
+        <class>uint64</class>
+        <attribute>structured</attribute>
+        <usage>
+            Can be multiplied with a Mach absolute time in order to convert the value into seconds.
+        </usage>
+        <display-convention>
+            <note>Usually displayed as a n/d value for debugging purposes</note>
+            <family>General</family>
+            <column-pt-width>60</column-pt-width>
+        </display-convention>
+        <encoding-convention>
+            <note>Encoded as a uint64 where the MSBs are the numerator and the LSBs are the denominator.</note>
+            <packed>
+                <bit-range>
+                    <start>63</start> <end>32</end> <type>mach-timebase-info-field</type>
+                </bit-range>
+                <bit-range>
+                    <start>31</start> <end>0</end> <type>mach-timebase-info-field</type>
+                </bit-range>
+            </packed>
+        </encoding-convention>
+    </type>
+
+    <type>
+        <mnemonic>file-path</mnemonic>
+        <title>File Path</title>
+        <enum>XRFilePathTypeID</enum>
+        <class>string</class>
+        <attribute>categorical</attribute>
+        <usage>
+            A file path to a file in the file system of the target device.
+        </usage>
+        <display-convention>
+            <note>Displayed with middle-truncation and has a "Reveal in Finder" action if target is local</note>
+            <family>I/O</family>
+            <column-pt-width>500</column-pt-width>
+        </display-convention>
+    </type>
+    
+    <type>
+        <mnemonic>formatted-label</mnemonic>
+        <title>Label</title>
+        <enum>XRFormattedLabelTypeID</enum>
+        <class>typed-array</class>
+        <attribute>categorical</attribute>
+        <attribute>narrative</attribute>
+        <usage>
+            Similar to a "narrative", which displays long formatted strings, the formatted label uses the same
+            approach but is intended for smaller strings that uniquely label something.
+        </usage>
+        <display-convention>
+            <note>
+                Displayed the same as narratives in most cases.  Each sub-portion of the string can
+                have an action menu, like a regular narrative.
+            </note>
+            <family>General</family>
+            <column-pt-width>170</column-pt-width>
+        </display-convention>
+    </type>
+</engineering-types>

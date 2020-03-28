@@ -1,0 +1,891 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Processes</key>
+	<dict>
+		<key>type</key>
+		<string>checkbox</string>
+		<key>groups</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>CPU</string>
+				<key>settings</key>
+				<array>
+					<dict>
+						<key>shortName</key>
+						<string>__arch</string>
+						<key>displayName</key>
+						<string>Architecture</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>appSleep</string>
+						<key>displayName</key>
+						<string>App Nap</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>ctxSwitch</string>
+						<key>displayName</key>
+						<string>Context Switches</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>cpuTotalSystem</string>
+						<key>displayName</key>
+						<string>CPU Total System</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>cpuTotalUser</string>
+						<key>displayName</key>
+						<string>CPU Total User</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>cpuUsage</string>
+						<key>displayName</key>
+						<string>CPU Usage</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>intWakeups</string>
+						<key>displayName</key>
+						<string>Interrupt Wakeups</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>msgRecv</string>
+						<key>displayName</key>
+						<string>Messages Received</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>msgSent</string>
+						<key>displayName</key>
+						<string>Messages Sent</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>nFiles</string>
+						<key>displayName</key>
+						<string>Number Of Files</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>numRunning</string>
+						<key>displayName</key>
+						<string>Number of Running Threads</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>threadCount</string>
+						<key>displayName</key>
+						<string>Number of Threads</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>platIdleWakeups</string>
+						<key>displayName</key>
+						<string>Platform Idle Wakeups</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>machPortCount</string>
+						<key>displayName</key>
+						<string>Port Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>priority</string>
+						<key>displayName</key>
+						<string>Priority</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>latencyQosTier</string>
+						<key>displayName</key>
+						<string>QoS Latency Tier</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>throughputQosTier</string>
+						<key>displayName</key>
+						<string>QoS Throughput Tier</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>__restricted</string>
+						<key>displayName</key>
+						<string>Restricted</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>__sandbox</string>
+						<key>displayName</key>
+						<string>Sandbox</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>procStatus</string>
+						<key>displayName</key>
+						<string>Process Status</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>__suddenTerm</string>
+						<key>displayName</key>
+						<string>Sudden Termination</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>sysCallsMach</string>
+						<key>displayName</key>
+						<string>System Cals Mach</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>sysCallsUnix</string>
+						<key>displayName</key>
+						<string>System Calls Unix</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>threadsSystem</string>
+						<key>displayName</key>
+						<string>Threads System</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>threadsUser</string>
+						<key>displayName</key>
+						<string>Threads User</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>wqBlockedThreads</string>
+						<key>displayName</key>
+						<string>Work Queue Blocked Threads</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>wqRunThreads</string>
+						<key>displayName</key>
+						<string>Work Queue Running Threads</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>wqState</string>
+						<key>displayName</key>
+						<string>Work Queue State</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>wqNumThreads</string>
+						<key>displayName</key>
+						<string>Work Queue Thread Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Memory</string>
+				<key>settings</key>
+				<array>
+					<dict>
+						<key>shortName</key>
+						<string>memAnon</string>
+						<key>displayName</key>
+						<string>Anonymous Memory</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>memAnonPeak</string>
+						<key>displayName</key>
+						<string>Anonymous Memory Peak</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>memCompressed</string>
+						<key>displayName</key>
+						<string>Compressed</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>cowFaults</string>
+						<key>displayName</key>
+						<string>COW Faults</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>faults</string>
+						<key>displayName</key>
+						<string>Faults</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>memRPrvt</string>
+						<key>displayName</key>
+						<string>Memory Private</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>memRShrd</string>
+						<key>displayName</key>
+						<string>Memory Shared</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmPageIns</string>
+						<key>displayName</key>
+						<string>Page Ins</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>physFootprint</string>
+						<key>displayName</key>
+						<string>Physical Footprint</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>memPurgeable</string>
+						<key>displayName</key>
+						<string>Purgeable Size</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>residentSize</string>
+						<key>displayName</key>
+						<string>Resident Size</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>virtualSize</string>
+						<key>displayName</key>
+						<string>Virtual Size</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>wiredSize</string>
+						<key>displayName</key>
+						<string>Wired Size</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Energy</string>
+				<key>settings</key>
+				<array>
+					<dict>
+						<key>shortName</key>
+						<string>avgPowerScore</string>
+						<key>displayName</key>
+						<string>Average Power Score</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>powerScore</string>
+						<key>displayName</key>
+						<string>Power Score</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>timerWakeBin1</string>
+						<key>displayName</key>
+						<string>Timer Wakeups 1</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>timerWakeBin2</string>
+						<key>displayName</key>
+						<string>Timer Wakeups 2</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>totalEnergyScore</string>
+						<key>displayName</key>
+						<string>Total Energy Score</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Disk</string>
+				<key>settings</key>
+				<array>
+					<dict>
+						<key>shortName</key>
+						<string>diskBytesRead</string>
+						<key>displayName</key>
+						<string>Disk Bytes Read</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>diskBytesWritten</string>
+						<key>displayName</key>
+						<string>Disk Bytes Written</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+	<key>System</key>
+	<dict>
+		<key>type</key>
+		<string>checkbox</string>
+		<key>groups</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>CPU</string>
+				<key>settings</key>
+				<array>
+					<dict>
+						<key>shortName</key>
+						<string>threadCount</string>
+						<key>displayName</key>
+						<string>Thread Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Memory</string>
+				<key>settings</key>
+				<array>
+					<dict>
+						<key>shortName</key>
+						<string>physMemSize</string>
+						<key>displayName</key>
+						<string>Physical Memory Size</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmActiveCount</string>
+						<key>displayName</key>
+						<string>VM Active Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmCowFaults</string>
+						<key>displayName</key>
+						<string>VM COW Faults</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmCompressions</string>
+						<key>displayName</key>
+						<string>VM Compressions</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmCompressorPageCount</string>
+						<key>displayName</key>
+						<string>VM Compressor Page Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmDecompressions</string>
+						<key>displayName</key>
+						<string>VM Decompressions</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmExtPageCount</string>
+						<key>displayName</key>
+						<string>VM External Page Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmFaults</string>
+						<key>displayName</key>
+						<string>VM Faults</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmFreeCount</string>
+						<key>displayName</key>
+						<string>VM Free Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmHits</string>
+						<key>displayName</key>
+						<string>VM Hits</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmInactiveCount</string>
+						<key>displayName</key>
+						<string>VM Inactive Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmIntPageCount</string>
+						<key>displayName</key>
+						<string>VM Internal Page Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmLookups</string>
+						<key>displayName</key>
+						<string>VM Lookups</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmPageIns</string>
+						<key>displayName</key>
+						<string>VM Page Ins</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmPageOuts</string>
+						<key>displayName</key>
+						<string>VM Page Outs</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmPurges</string>
+						<key>displayName</key>
+						<string>VM Purges</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmPurgeableCount</string>
+						<key>displayName</key>
+						<string>VM Purgeable Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmReactivations</string>
+						<key>displayName</key>
+						<string>VM Reactivations</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmSize</string>
+						<key>displayName</key>
+						<string>VM Size</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmSpeculativeCount</string>
+						<key>displayName</key>
+						<string>VM Speculative Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmSwapIns</string>
+						<key>displayName</key>
+						<string>VM Swap Ins</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmSwapOuts</string>
+						<key>displayName</key>
+						<string>VM Swap Outs</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>__vmSwapUsage</string>
+						<key>displayName</key>
+						<string>VM Swap Usage</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmThrottledCount</string>
+						<key>displayName</key>
+						<string>VM Throttled Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmTotalUncompPagesInComp</string>
+						<key>displayName</key>
+						<string>VM Total Uncompressed Pages in Compressor</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmUsedCount</string>
+						<key>displayName</key>
+						<string>VM Used Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmWireCount</string>
+						<key>displayName</key>
+						<string>VM Wire Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>vmZeroFillCount</string>
+						<key>displayName</key>
+						<string>VM Zero Fill Count</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Disk</string>
+				<key>settings</key>
+				<array>
+					<dict>
+						<key>shortName</key>
+						<string>diskBytesRead</string>
+						<key>displayName</key>
+						<string>Disk Bytes Read</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>diskBytesWritten</string>
+						<key>displayName</key>
+						<string>Disk Bytes Written</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>diskReadOps</string>
+						<key>displayName</key>
+						<string>Disk Read Ops</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>diskWriteOps</string>
+						<key>displayName</key>
+						<string>Disk Write Ops</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Network</string>
+				<key>settings</key>
+				<array>
+					<dict>
+						<key>shortName</key>
+						<string>netBytesIn</string>
+						<key>displayName</key>
+						<string>Net Bytes In</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>netBytesOut</string>
+						<key>displayName</key>
+						<string>Net Bytes Out</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>netPacketsIn</string>
+						<key>displayName</key>
+						<string>Net Packets In</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>netPacketsOut</string>
+						<key>displayName</key>
+						<string>Net Packets Out</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+	<key>Coalitions</key>
+	<dict>
+		<key>type</key>
+		<string>checkbox</string>
+		<key>groups</key>
+		<array>
+			<dict>
+				<key>name</key>
+				<string>CPU</string>
+				<key>settings</key>
+				<array>
+					<dict>
+						<key>shortName</key>
+						<string>cpuTime</string>
+						<key>displayName</key>
+						<string>CPU Time</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>cpuUsage</string>
+						<key>displayName</key>
+						<string>CPU Usage</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>intWakeups</string>
+						<key>displayName</key>
+						<string>Interrupt Wakeups</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>launchdJobName</string>
+						<key>displayName</key>
+						<string>Job Name</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>platIdleWakeups</string>
+						<key>displayName</key>
+						<string>Platform Idle Wakeups</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>tasksExited</string>
+						<key>displayName</key>
+						<string>Tasks Exited</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>tasksStarted</string>
+						<key>displayName</key>
+						<string>Tasks Started</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>timeNonEmpty</string>
+						<key>displayName</key>
+						<string>Time Non-Empty</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Energy</string>
+				<key>settings</key>
+				<array>
+					<dict>
+						<key>shortName</key>
+						<string>energyImpact</string>
+						<key>displayName</key>
+						<string>Energy Impact</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>totalEnergyImpact</string>
+						<key>displayName</key>
+						<string>Total Energy Impact</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+			<dict>
+				<key>name</key>
+				<string>Disk</string>
+				<key>settings</key>
+				<array>
+					<dict>
+						<key>shortName</key>
+						<string>bytesRead</string>
+						<key>displayName</key>
+						<string>Bytes Read</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>shortName</key>
+						<string>bytesWritten</string>
+						<key>displayName</key>
+						<string>Bytes Written</string>
+						<key>tooltip</key>
+						<string></string>
+					</dict>
+				</array>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

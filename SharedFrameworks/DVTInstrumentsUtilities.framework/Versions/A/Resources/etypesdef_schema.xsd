@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<!-- Types -->
+    <xs:simpleType name="mnemonicType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-z]+[a-z0-9\-]*[a-z0-9]+"/>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="display-family">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="CPU"/>
+            <xs:enumeration value="Memory"/>
+            <xs:enumeration value="Graphics"/>
+            <xs:enumeration value="Energy"/>
+            <xs:enumeration value="General"/>
+            <xs:enumeration value="I/O"/>
+            <xs:enumeration value="Internal"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="color-palette">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Blue"/>
+            <xs:enumeration value="Green"/>
+            <xs:enumeration value="Purple"/>
+            <xs:enumeration value="Orange"/>
+            <xs:enumeration value="Red"/>
+            <xs:enumeration value="Blue2"/>
+            <xs:enumeration value="Green2"/>
+            <xs:enumeration value="Purple2"/>
+            <xs:enumeration value="Orange2"/>
+            <xs:enumeration value="Red2"/>
+            <xs:enumeration value="Gray"/>
+            <xs:enumeration value="Clear"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="icon-palette">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-z!\-]+"/>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ENGINEERING TYPES SCHEMA DEFINITION -->
+    <xs:element name="engineering-types">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="type" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                        	<xs:element name="mnemonic" minOccurs="1" maxOccurs="1" type="mnemonicType"/>
+                            <xs:element name="title" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                            <xs:element name="enum" minOccurs="1" maxOccurs="1">
+                            	<xs:simpleType>
+	                            	<xs:restriction base="xs:string">
+	                            	    <xs:pattern value="XR[A-Z]+[A-Za-z0-9]*TypeID?"/>
+	                            	    <xs:minLength value="8"/>
+	                            	    <xs:maxLength value="100"/>
+	                            	</xs:restriction>
+	                            </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="class" minOccurs="1" maxOccurs="1">
+                            	<xs:simpleType>
+	                            	<xs:restriction base="xs:string">
+	                            	    <xs:enumeration value="uint32"/>
+	                            	    <xs:enumeration value="uint64"/>
+	                            	    <xs:enumeration value="uint64-array"/>
+	                            	    <xs:enumeration value="typed-array"/>
+	                            	    <xs:enumeration value="string"/>
+	                            	    <xs:enumeration value="fixed-decimal"/>
+	                            	    <xs:enumeration value="invalid"/>
+	                            	</xs:restriction>
+	                            </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="attribute" maxOccurs="unbounded" minOccurs="0">
+                            	<xs:simpleType>
+                            		<xs:restriction base="xs:string">
+                            			<xs:enumeration value="categorical"/>
+                            			<xs:enumeration value="identifier"/>
+                            			<xs:enumeration value="structured"/>
+                            			<xs:enumeration value="event"/>
+                            			<xs:enumeration value="state"/>
+                            			<xs:enumeration value="narrative"/>
+                            		</xs:restriction>
+                            	</xs:simpleType>
+                            </xs:element>
+                            <xs:element name="experimental" minOccurs="0" maxOccurs="1" type="xs:boolean" default="true"/>
+                            <xs:element name="deprecated" minOccurs="0" maxOccurs="1" type="xs:boolean" default="false"/>
+                            <xs:element name="usage" minOccurs="1" maxOccurs="1" type="xs:string"/>
+                            <xs:element name="related-type" minOccurs="0" maxOccurs="unbounded" type="mnemonicType"/>
+                            <xs:element name="display-convention">
+                            	<xs:complexType>
+                            		<xs:sequence>
+                            			<xs:element name="note" minOccurs="0" maxOccurs="1" type="xs:string"/>
+                            			<xs:element name="debug-only" minOccurs="0" maxOccurs="1" type="xs:boolean" default="false"/>
+                                        <xs:element name="family" type="display-family"/>
+                                        <xs:element name="column-pt-width" type="xs:nonNegativeInteger"/>                                        
+                                        <xs:element name="treatment" minOccurs="0" maxOccurs="1">
+                                            <xs:complexType>
+                                                <xs:sequence minOccurs="1" maxOccurs="unbounded">
+                                                    <xs:element name="value" type="xs:string"/>
+                                                    <xs:element name="color" type="color-palette"/>
+                                                    <xs:element name="icon" type="icon-palette"/>
+                                                </xs:sequence>
+                                                <xs:attribute name="values" default="exact" use="optional">
+                                                    <xs:simpleType>
+                                                        <xs:restriction base="xs:string">
+                                                            <xs:enumeration value="ranges"/>
+                                                            <xs:enumeration value="exact"/>
+                                                        </xs:restriction>
+                                                    </xs:simpleType>
+                                                </xs:attribute>
+                                            </xs:complexType>
+                                        </xs:element>
+                            		</xs:sequence>
+                            	</xs:complexType>
+                            </xs:element>
+                            <xs:element name="encoding-convention" minOccurs="0" maxOccurs="1">
+                            	<xs:complexType>
+                            		<xs:sequence>
+		                            	<xs:element name="note" minOccurs="0" maxOccurs="1" type="xs:string"/>
+		                            	<xs:element name="bit-width" minOccurs="0" maxOccurs="1" type="xs:integer"/>
+		                            	<xs:element name="signed"  minOccurs="0" maxOccurs="1" type="xs:boolean" default="false"/>
+		                            	<xs:element name="sentinel" minOccurs="0" maxOccurs="1">
+		                            		<xs:simpleType>
+			                            		<xs:restriction	base="xs:string">
+			                            			<xs:enumeration value="max"/>
+			                            			<xs:enumeration value="zero"/>
+			                            		</xs:restriction>
+			                            	</xs:simpleType>
+			                            </xs:element>
+		                            	<xs:choice minOccurs="0">
+		                            		<xs:element name="enum" maxOccurs="1">
+			                            		<xs:complexType>
+			                            			<xs:sequence>
+			                            				<xs:element name="value" minOccurs="1" maxOccurs="unbounded" type="xs:string"/>
+			                            			</xs:sequence>
+			                            		</xs:complexType>
+			                            	</xs:element>
+		                            		<xs:element name="array" maxOccurs="1">
+				                            	<xs:complexType>
+				                            		<xs:sequence>
+				                            			<xs:element name="slot" minOccurs="0" maxOccurs="unbounded" type="mnemonicType"/>
+				                            			<xs:element name="remainder" minOccurs="0" maxOccurs="1" type="mnemonicType"/>
+			                            			</xs:sequence>
+			                            		</xs:complexType>
+			                            	</xs:element>
+			                            	<xs:element name="packed" maxOccurs="1">
+			                            		<xs:complexType>
+			                            			<xs:sequence>
+			                            				<xs:element name="bit-range" minOccurs="1" maxOccurs="unbounded">
+				                            				<xs:complexType>			                            				
+						                            			<xs:sequence>
+						                            				<xs:element name="start" minOccurs="1" maxOccurs="1" type="xs:nonNegativeInteger"/>
+						                            				<xs:element name="end" minOccurs="1" maxOccurs="1" type="xs:nonNegativeInteger"/>
+						                            				<xs:element name="type" minOccurs="1" maxOccurs="1" type="mnemonicType"/>
+						                            			</xs:sequence>
+						                            		</xs:complexType>
+						                            	</xs:element>
+			                            			</xs:sequence>
+			                            		</xs:complexType>
+			                            	</xs:element>
+		                            	</xs:choice>
+	                            	</xs:sequence>
+	                            </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:keyref name="related-type-key" refer="mnemonic-key">
+            <xs:selector xpath="type/related-type"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+        <xs:keyref name="encoding-array-type-key" refer="mnemonic-key">
+            <xs:selector xpath="type/encoding-convention/array/slot"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+        <xs:keyref name="encoding-array-remainder-type-key" refer="mnemonic-key">
+            <xs:selector xpath="type/encoding-convention/array/remainder"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+        <xs:keyref name="encoding-bit-range-type-key" refer="mnemonic-key">
+            <xs:selector xpath="type/encoding-convention/packed/bit-range/type"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+        <xs:unique name="mnemonic-key">
+            <xs:selector xpath="type"/>
+            <xs:field xpath="mnemonic"/>
+        </xs:unique>
+        <xs:unique name="enum">
+            <xs:selector xpath="type"/>
+            <xs:field xpath="enum"/>
+        </xs:unique>
+    </xs:element>
+</xs:schema>
