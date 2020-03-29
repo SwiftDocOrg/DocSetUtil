@@ -1,8 +1,28 @@
 # docsetutil
 
-A mirror of `docsetutil`,
-a developer tool for working with `.docset` bundles 
+This is an unofficial mirror of `docsetutil`:
+a developer tool for working with `.docset` bundles
 that was removed in Xcode 9.3.
+
+## Installation
+
+### Homebrew
+
+Run the following command to install using [homebrew](https://brew.sh/):
+
+```terminal
+$ brew install swiftdocorg/formulae/docsetutil
+```
+
+### Manually
+
+Run the following commands to build and install manually:
+
+```terminal
+$ git clone https://github.com/SwiftDocOrg/DocSetUtil.git
+$ cd DocSetUtil
+$ make install
+```
 
 ## Manual
 
